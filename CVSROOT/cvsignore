@@ -1,7 +1,0 @@
-*.class
-*.jar
-*.swp
-*.bin
-*.idx
-.build_lib
-make.depend
