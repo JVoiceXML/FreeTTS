@@ -21,7 +21,6 @@
     <path id="libs">
         <fileset dir="lib">
           <include name="jsapi.jar"/>
-          <include name="jsapi-1.0-base.jar"/>
         </fileset>
     </path>
     <property name="src_dir" value="src" />
@@ -631,13 +630,13 @@ jsapi.exe from the lib directory.
             description="Builds all the jar files" />
 
     <!-- freetts.jar -->
-    <property name="freetts__jsapi10_jar"
+    <property name="freetts_jsapi10_jar"
               value="${lib_dir}/freetts-jsapi10.jar" />
     <property name="freetts_jar" value="${lib_dir}/freetts.jar" />
 
     <target name="-freetts_jsapi10_jar" depends="compile_src">
         <mkdir dir="${lib_dir}" />
-        <jar destfile="${freetts__jsapi10_jar}" compress="true">
+        <jar destfile="${freetts_jsapi10_jar}" compress="true">
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
                 <section name="common">
