@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.jvoicexml</groupId>
+	<artifactId>freetts-jsapi10</artifactId>
+	<version>@version@</version>
+	<dependencies>
+		<dependency>
+			<groupId>org.jvoicexml</groupId>
+			<artifactId>freetts</artifactId>
+			<version>@version@</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jvoicexml</groupId>
+			<artifactId>jsapi</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+	<packaging>jar</packaging>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+	<licenses>
+		<license>
+			<name>FreeTTS License</name>
+			<url>http://freetts.sourceforge.net/license.terms</url>
+		</license>
+	</licenses>
+	<distributionManagement>
+		<repository>
+			<id>sonatype-nexus-staging</id>
+			<name>Nexus Staging Repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+	<developers>
+		<developer>
+			<id>Willie</id>
+			<name>Willian Walker</name>
+		</developer>
+		<developer>
+			<id>Paul</id>
+			<name>Paul Lamere</name>
+		</developer>
+		<developer>
+			<id>Philip</id>
+			<name>Philip Kwok</name>
+		</developer>
+		<developer>
+			<id>Dirk</id>
+			<name>Dirk Schnelle-Walka</name>
+			<email>dirk.schnelle@jvoicexml.org</email>
+			<timezone>Central European Time</timezone>
+		</developer>
+	</developers>
+	<organization>
+		<name>JVoiceXML</name>
+		<url>http://jvoicexml.sourceforge.net</url>
+	</organization>
+	<description>JSAPI 1.0 Base Layer for the FreeTTS Speech Synthesis System</description>
+</project>

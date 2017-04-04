@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.jvoicexml</groupId>
+	<artifactId>jsapi</artifactId>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+	<licenses>
+		<license>
+			<name>SUN Binary Code License Agreement</name>
+			<url>http://download.oracle.com/otndocs/jcp/7089-jta-1.0.1B-mr-class-oth-JSpec/7089-jta-1.0.1B-mr-class-oth-JSpec-license.html</url>
+		</license>
+	</licenses>
+	<distributionManagement>
+		<repository>
+			<id>sonatype-nexus-staging</id>
+			<name>Nexus Staging Repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+	<organization>
+		<name>SUN Microsystems</name>
+		<url>http://www.sun.com</url>
+	</organization>
+	<description>JSAPI 1.0 Specification Implementation</description>
+</project>
