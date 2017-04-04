@@ -8,7 +8,7 @@
 
 Change history for FreeTTS.
 --------------------------
-xxx Release 1.3
+xxx Release 1.2.3
     - Move to Java 6
     - AudioPlayer can throw IOExceptions to give more meaningful debug hints
     - bugfix: src folder was not properly set in the zipped sources to deploy

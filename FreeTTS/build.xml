@@ -10,14 +10,14 @@
 <!-- * For more information:  http://ant.apache.org/          * -->
 <!-- *                                                        * -->
 <!-- ********************************************************** -->
-<project basedir="." default="all" name="FreeTTS">
+<project basedir="." default="all" name="FreeTTS" xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
     <!-- ********************************************************** -->
     <!-- *                                                        * -->
     <!-- * Where to find things...                                * -->
     <!-- *                                                        * -->
     <!-- ********************************************************** -->
-    <property name="version" value="1.2.2" />
+    <property name="version" value="1.2.3-SNAPSHOT" />
     <path id="libs">
         <fileset dir="lib">
           <include name="jsapi.jar"/>
@@ -1022,6 +1022,34 @@ jsapi.exe from the lib directory.
 	             deploy_tst,
 	             deploy_webstartclock"
             description="Creates *.zip files for deployment" />
+
+    <target name="deploy-maven" depends="deploy" description="deploy snapshot version to Maven snapshot repository">
+        <copy todir="${build_dir}" file="freetts.pom" overwrite="true" />
+        <replace file="${build_dir}/freetts.pom" token="@version@" value="${version}" />
+        <path id="maven.path">
+            <fileset dir="${lib_dir}">
+                <include name="maven-ant-tasks-2.1.3.jar" />
+            </fileset>
+        </path>
+        <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpathref="maven.path" />
+
+        <!-- defined maven snapshots and staging repository id and url -->
+        <property name="ossrh-snapshots-repository-url" 
+                  value="https://oss.sonatype.org/content/repositories/snapshots/" />
+        <property name="ossrh-staging-repository-url" 
+                  value="https://oss.sonatype.org/service/local/staging/deploy/maven2/" />
+        <!-- there server id in the Maven settings.xml -->
+        <property name="ossrh-server-id" value="ossrh" />
+
+    	<!-- The following requires a file settings.xml in your .m2 folder -->
+        <artifact:mvn>
+            <arg value="org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file" />
+            <arg value="-Durl=${ossrh-snapshots-repository-url}" />
+            <arg value="-DrepositoryId=${ossrh-server-id}" />
+            <arg value="-DpomFile=${build_dir}/freetts.pom" />
+            <arg value="-Dfile=${freetts_jar}" />
+        </artifact:mvn>
+    </target>   
 
     <target name="deploy_init"
             description="Copies files to the deploy staging directory."
