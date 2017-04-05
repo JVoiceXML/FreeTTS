@@ -1024,26 +1024,26 @@ jsapi.exe from the lib directory.
             description="Creates *.zip files for deployment" />
 
     <target name="deploy-maven" depends="deploy" description="deploy snapshot version to Maven snapshot repository">
-        <copy todir="${build_dir}" file="${lib_dir}/freetts.pom" overwrite="true" />
-        <replace file="${build_dir}/freetts.pom" token="@version@" value="${version}" />
-        <copy todir="${build_dir}" file="${lib_dir}/freetts-jsapi10.pom" overwrite="true" />
-        <replace file="${build_dir}/freetts-jsapi10.pom" token="@version@" value="${version}" />
         <path id="maven.path">
             <fileset dir="${lib_dir}">
                 <include name="maven-ant-tasks-2.1.3.jar" />
             </fileset>
         </path>
-        <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpathref="maven.path" />
+        <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant"
+            classpathref="maven.path" />
 
         <!-- defined maven snapshots and staging repository id and url -->
         <property name="ossrh-snapshots-repository-url" 
                   value="https://oss.sonatype.org/content/repositories/snapshots/" />
         <property name="ossrh-staging-repository-url" 
                   value="https://oss.sonatype.org/service/local/staging/deploy/maven2/" />
-        <!-- there server id in the Maven settings.xml -->
+
+    	<!-- there server id in the Maven settings.xml -->
         <property name="ossrh-server-id" value="ossrh" />
 
     	<!-- The following requires a file settings.xml in your .m2 folder -->
+        <copy todir="${build_dir}" file="${lib_dir}/freetts.pom" overwrite="true" />
+        <replace file="${build_dir}/freetts.pom" token="@version@" value="${version}" />
         <artifact:mvn>
             <arg value="org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file" />
             <arg value="-Durl=${ossrh-snapshots-repository-url}" />
@@ -1060,12 +1060,74 @@ jsapi.exe from the lib directory.
             <arg value="-Dfile=${lib_dir}/jsapi.jar" />
         </artifact:mvn>
 
+        <copy todir="${build_dir}" file="${lib_dir}/freetts-jsapi10.pom" overwrite="true" />
+        <replace file="${build_dir}/freetts-jsapi10.pom" token="@version@" value="${version}" />
         <artifact:mvn>
             <arg value="org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file" />
             <arg value="-Durl=${ossrh-snapshots-repository-url}" />
             <arg value="-DrepositoryId=${ossrh-server-id}" />
             <arg value="-DpomFile=${build_dir}/freetts-jsapi10.pom" />
             <arg value="-Dfile=${freetts_jsapi10_jar}" />
+        </artifact:mvn>
+
+        <copy todir="${build_dir}" file="${lib_dir}/en_us.pom" overwrite="true" />
+        <replace file="${build_dir}/en_us.pom" token="@version@" value="${version}" />
+        <artifact:mvn>
+            <arg value="org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file" />
+            <arg value="-Durl=${ossrh-snapshots-repository-url}" />
+            <arg value="-DrepositoryId=${ossrh-server-id}" />
+            <arg value="-DpomFile=${build_dir}/en_us.pom" />
+            <arg value="-Dfile=${en_us_jar}" />
+        </artifact:mvn>
+    	
+        <copy todir="${build_dir}" file="${lib_dir}/cmudict04.pom" overwrite="true" />
+        <replace file="${build_dir}/cmudict04.pom" token="@version@" value="${version}" />
+        <artifact:mvn>
+            <arg value="org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file" />
+            <arg value="-Durl=${ossrh-snapshots-repository-url}" />
+            <arg value="-DrepositoryId=${ossrh-server-id}" />
+            <arg value="-DpomFile=${build_dir}/cmudict04.pom" />
+            <arg value="-Dfile=${cmudict04_jar}" />
+        </artifact:mvn>
+
+        <copy todir="${build_dir}" file="${lib_dir}/cmulex.pom" overwrite="true" />
+        <replace file="${build_dir}/cmulex.pom" token="@version@" value="${version}" />
+        <artifact:mvn>
+            <arg value="org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file" />
+            <arg value="-Durl=${ossrh-snapshots-repository-url}" />
+            <arg value="-DrepositoryId=${ossrh-server-id}" />
+            <arg value="-DpomFile=${build_dir}/cmulex.pom" />
+            <arg value="-Dfile=${cmulex_jar}" />
+        </artifact:mvn>
+
+        <copy todir="${build_dir}" file="${lib_dir}/cmutimelex.pom" overwrite="true" />
+        <replace file="${build_dir}/cmutimelex.pom" token="@version@" value="${version}" />
+        <artifact:mvn>
+            <arg value="org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file" />
+            <arg value="-Durl=${ossrh-snapshots-repository-url}" />
+            <arg value="-DrepositoryId=${ossrh-server-id}" />
+            <arg value="-DpomFile=${build_dir}/cmutimelex.pom" />
+            <arg value="-Dfile=${cmutimelex_jar}" />
+        </artifact:mvn>
+    	
+        <copy todir="${build_dir}" file="${lib_dir}/cmu_time_awb.pom" overwrite="true" />
+        <replace file="${build_dir}/cmu_time_awb.pom" token="@version@" value="${version}" />
+        <artifact:mvn>
+            <arg value="org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file" />
+            <arg value="-Durl=${ossrh-snapshots-repository-url}" />
+            <arg value="-DrepositoryId=${ossrh-server-id}" />
+            <arg value="-DpomFile=${build_dir}/cmu_time_awb.pom" />
+            <arg value="-Dfile=${cmu_time_awb_jar}" />
+        </artifact:mvn>
+
+    	<copy todir="${build_dir}" file="${lib_dir}/cmu_us_kal.pom" overwrite="true" />
+        <replace file="${build_dir}/cmu_us_kal.pom" token="@version@" value="${version}" />
+        <artifact:mvn>
+            <arg value="org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file" />
+            <arg value="-Durl=${ossrh-snapshots-repository-url}" />
+            <arg value="-DrepositoryId=${ossrh-server-id}" />
+            <arg value="-DpomFile=${build_dir}/cmu_us_kal.pom" />
+            <arg value="-Dfile=${cmu_us_kal_jar}" />
         </artifact:mvn>
     </target>   
 

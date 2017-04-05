@@ -2,8 +2,34 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jvoicexml</groupId>
-	<artifactId>freetts</artifactId>
+	<artifactId>cmu_time_awb</artifactId>
 	<version>@version@</version>
+	<dependencies>
+		<dependency>
+			<groupId>org.jvoicexml</groupId>
+			<artifactId>freetts</artifactId>
+			<version>@version@</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jvoicexml</groupId>
+			<artifactId>en_us</artifactId>
+			<version>@version@</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jvoicexml</groupId>
+			<artifactId>cmudict04</artifactId>
+			<version>@version@</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jvoicexml</groupId>
+			<artifactId>cmutimelex</artifactId>
+			<version>@version@</version>
+			<scope>runtime</scope>
+		</dependency>
+	</dependencies>
 	<packaging>jar</packaging>
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -47,5 +73,5 @@
 		<name>JVoiceXML</name>
 		<url>http://jvoicexml.sourceforge.net</url>
 	</organization>
-	<description>FreeTTS Speech Synthesis System</description>
+	<description>default time-domain cluster unit voice</description>
 </project>
