@@ -9,12 +9,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.jvoicexml</groupId>
-			<artifactId>freetts</artifactId>
-			<version>@version@</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jvoicexml</groupId>
 			<artifactId>en_us</artifactId>
 			<version>@version@</version>
 			<scope>runtime</scope>

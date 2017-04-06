@@ -3,6 +3,16 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="unittests"/>
 	<classpathentry kind="src" path="demo/freetts/HelloWorld"/>
+	<classpathentry kind="src" path="demo/freetts/ClientServer"/>
+	<classpathentry kind="src" path="demo/util"/>
+	<classpathentry kind="src" path="demo/freetts/Emacspeak"/>
+	<classpathentry kind="src" path="demo/JSAPI/Emacspeak"/>
+	<classpathentry kind="src" path="demo/JSAPI/HelloWorld"/>
+	<classpathentry kind="src" path="demo/JSAPI/JTime"/>
+	<classpathentry kind="src" path="demo/JSAPI/MixedVoices"/>
+	<classpathentry kind="src" path="demo/JSAPI/Player"/>
+	<classpathentry kind="src" path="demo/JSAPI/WebStartClock"/>
+	<classpathentry kind="src" path="tools/ArcticToFreeTTS/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="lib/jsapi.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>

@@ -12,6 +12,9 @@ xxx Release 1.2.3
     - Move to Java 6
     - AudioPlayer can throw IOExceptions to give more meaningful debug hints
     - bugfix: src folder was not properly set in the zipped sources to deploy
+    - adapted jar to include version number
+    - removed class path entry from jars
+    - dynamically creating jar mainfests from ANT
 
 March, 9, 2009 Release 1.2.2:
     - Introduced an AliasDiphone class as a subclass of Diphone, which

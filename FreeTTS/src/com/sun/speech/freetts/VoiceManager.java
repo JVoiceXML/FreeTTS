@@ -41,13 +41,13 @@ public class VoiceManager {
      * we only want one class loader, otherwise the static information for
      * loaded classes would be duplicated for each class loader
      */
-    private static final DynamicClassLoader classLoader;
+    private static final DynamicClassLoader CLASSLOADER;
 
     static {
         PATH_SEPARATOR = System.getProperty("path.separator");
         INSTANCE = new VoiceManager();
         final ClassLoader parent = VoiceManager.class.getClassLoader();
-        classLoader = new DynamicClassLoader(new URL[0], parent);
+        CLASSLOADER = new DynamicClassLoader(new URL[0], parent);
     }
 
     /**
@@ -188,7 +188,7 @@ public class VoiceManager {
             if (!noexpansion) {
                 // Extend class path
                 for (int i = 0; i < pathURLs.size(); i++) {
-                    classLoader.addUniqueURL((URL) pathURLs.get(i));
+                    CLASSLOADER.addUniqueURL((URL) pathURLs.get(i));
                 }
             }
 
@@ -200,7 +200,7 @@ public class VoiceManager {
                 Class<VoiceDirectory> c =
                     (Class<VoiceDirectory>) Class.forName(
                             (String) voiceDirectoryNames.get(i),
-                    true, classLoader);
+                    true, CLASSLOADER);
                 voiceDirectories.add(c.newInstance());
             }
 
@@ -231,7 +231,7 @@ public class VoiceManager {
         for (int i = 0; i < classnames.length; i++) {
             @SuppressWarnings("unchecked")
             Class<VoiceDirectory> c =
-                (Class<VoiceDirectory>) classLoader.loadClass(classnames[i]);
+                (Class<VoiceDirectory>) CLASSLOADER.loadClass(classnames[i]);
             directories.add(c.newInstance());
         }
 
@@ -321,8 +321,9 @@ public class VoiceManager {
         InputStream is = this.getClass().getResourceAsStream(
             "internal_voices.txt");
         if (is != null) { // if it doesn't exist, move on
-            voiceDirectoryNames.addVector(getVoiceDirectoryNamesFromInputStream(
-                    is));
+            UniqueVector<String> voices = getVoiceDirectoryNamesFromInputStream(
+                    is);
+            voiceDirectoryNames.addVector(voices);
         }
 
         // next, try loading voices.txt
@@ -624,7 +625,7 @@ public class VoiceManager {
      * @return the class loader
      */
     public static URLClassLoader getVoiceClassLoader() {
-        return classLoader;
+        return CLASSLOADER;
     }
 }
 

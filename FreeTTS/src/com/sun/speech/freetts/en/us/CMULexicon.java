@@ -86,12 +86,12 @@ public class CMULexicon extends LexiconImpl {
         String type = (useBinaryIO ? "bin" : "txt");
 
         URL letterToSoundURL = classLoader.getResource(
-                "com/sun/speech/freetts/en/us/" + basename + "_lts." + type);
+                "/com/sun/speech/freetts/en/us/" + basename + "_lts." + type);
         URL compiledURL = classLoader.getResource(
-                "com/sun/speech/freetts/en/us/" + basename
+                "/com/sun/speech/freetts/en/us/" + basename
                 + "_compiled." + type);
         URL addendaURL = classLoader.getResource(
-                "com/sun/speech/freetts/en/us/" + basename
+                "/com/sun/speech/freetts/en/us/" + basename
                 + "_addenda." + type);
 
         /* Just another try with possibly a different class loader
@@ -104,7 +104,7 @@ public class CMULexicon extends LexiconImpl {
             addendaURL = cls.getResource(basename + "_addenda." + type);
             if (letterToSoundURL == null) {
                 System.err.println(
-                    "CMULexicon: Oh no!  Couldn't find lexicon data!");
+                    "CMULexicon: Oh no! Couldn't find lexicon data for '" + basename + "' of type '" + type + "'!");
             }
         }
         

@@ -55,5 +55,5 @@
 		<name>JVoiceXML</name>
 		<url>http://jvoicexml.sourceforge.net</url>
 	</organization>
-	<description>en_us for FreeTTS</description>
+	<description>en_us support for FreeTTS</description>
 </project>
