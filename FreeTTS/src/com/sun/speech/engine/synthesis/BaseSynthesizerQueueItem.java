@@ -540,6 +540,9 @@ public class BaseSynthesizerQueueItem extends SynthesizerQueueItem
      * by <code>dispatchSpeechEvent</code> as a result
      * of this action.
      *
+     * @param text the synthesized text
+     * @param wordStart start position of the word within text
+     * @param wordStart end position of the word within text
      * @see #fireWordStarted
      * @see #dispatchSpeechEvent
      */

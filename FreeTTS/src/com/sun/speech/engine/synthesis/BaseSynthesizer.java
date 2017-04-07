@@ -321,6 +321,7 @@ abstract public class BaseSynthesizer extends BaseEngine
      * Factory method that creates a <code>BaseSynthesizerQueueItem</code>.
      * Override if the synthesizer specializes the
      * <code>BaseSynthesizerQueueItem</code> class.
+     * @return the created queue item
      */
     protected BaseSynthesizerQueueItem createQueueItem() {
         return new BaseSynthesizerQueueItem();

@@ -1330,7 +1330,7 @@ jsapi.exe from the lib directory.
             <fileset defaultexcludes="no"
                      dir="lib"
                      includes="**/*.jar"
-                     excludes="**/jsapi.jar,**/jsapi-1.0-base.jar" />
+                     excludes="**/jsapi.jar,**/jsapi-1.0-base.jar maven-ant-tasks-2.1.3.jar" />
             <fileset defaultexcludes="no"
                      dir="mbrola"
                      includes="**/mbrola.jar" />

@@ -142,6 +142,7 @@ public class JSMLParser {
      * @param source the JSML text
      * @param validate if <code>true</code>, validate the JSML text
      *
+     * @return parsed document
      * @throws JSMLException if the JSML text contains errors
      * @throws IOException if problems encountered with <code>source</code>
      */

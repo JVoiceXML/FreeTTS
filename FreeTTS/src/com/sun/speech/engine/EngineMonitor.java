@@ -230,7 +230,7 @@ public class EngineMonitor {
      * Adds a <code>String</code> to a buffer, with each
      * <code>String</code> being separated by a ":".
      *
-     * @param b the buffer to which to append <code>s</code to
+     * @param b the buffer to which to append <code>s</code> to
      * @param s the <code>String</code> to append to <code>b</code>
      */
     protected void appendBuffer(StringBuffer b, String s) {

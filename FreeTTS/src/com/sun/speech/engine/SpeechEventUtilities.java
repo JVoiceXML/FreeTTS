@@ -66,6 +66,7 @@ public class SpeechEventUtilities {
      * a real method for determining if AWT is active or not.  The problem
      * with asking AWT if it is active right now is that it will activate
      * it if it isn't already active.
+     * @return {@code true} if we are running in an AWT event queue
      */
     static protected boolean isAWTRunning() {
          

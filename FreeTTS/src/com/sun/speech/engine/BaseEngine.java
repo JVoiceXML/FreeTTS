@@ -155,7 +155,7 @@ abstract public class BaseEngine implements Engine, SpeechEventDispatcher {
      * <p>The <code>testEngineState</code> method is equivalent to:
      * 
      * <PRE>
-     *      if ((engine.getEngineState() & state) == state)
+     *      if ((engine.getEngineState() &amp; state) == state)
      * </PRE>
      *
      * <p>The <code>testEngineState</code> method can be called 
@@ -177,6 +177,8 @@ abstract public class BaseEngine implements Engine, SpeechEventDispatcher {
      * Updates this <code>Engine</code> state by clearing defined bits,
      * then setting other specified bits.
      *
+     * @param clear the engine flags to clear
+     * @param set the engine flags to set
      * @return a length-2 array with old and new state values.
      */
     protected long[] setEngineState(long clear, long set) {
@@ -374,6 +376,7 @@ abstract public class BaseEngine implements Engine, SpeechEventDispatcher {
      * @return the operating mode of this <code>Engine</code>
      *
      * @throws SecurityException
+     * 		if the engine mode descriptor cannot be retrieved
      */
     public EngineModeDesc getEngineModeDesc() throws SecurityException {
         return engineModeDesc;
