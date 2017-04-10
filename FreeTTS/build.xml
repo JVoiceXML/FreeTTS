@@ -851,6 +851,11 @@ jsapi.exe from the lib directory.
         <jar destfile="${cmu_us_kal_jar}" filesonly="true" compress="true">
             <fileset dir="${classes_dir}"
                      includes="com/sun/speech/freetts/en/us/cmu_us_kal/*" />
+            <mappedresources>
+                <fileset dir="${src_dir}"
+                         includes="com/sun/speech/freetts/en/us/cmu_us_kal/*.services" />
+                <globmapper from="*.services" to="META-INF/services/com.sun.speech.freetts.VoiceDirectory" />
+            </mappedresources>
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
                 <attribute name="Main-Class"
@@ -876,6 +881,11 @@ jsapi.exe from the lib directory.
         <jar destfile="${cmu_time_awb_jar}" filesonly="true" compress="true">
             <fileset dir="${classes_dir}"
                      includes="com/sun/speech/freetts/en/us/cmu_time_awb/*" />
+            <mappedresources>
+                <fileset dir="${src_dir}"
+                         includes="com/sun/speech/freetts/en/us/cmu_time_awb/*.services" />
+                <globmapper from="*.services" to="META-INF/services/com.sun.speech.freetts.VoiceDirectory" />
+            </mappedresources>
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
                 <attribute name="Main-Class"

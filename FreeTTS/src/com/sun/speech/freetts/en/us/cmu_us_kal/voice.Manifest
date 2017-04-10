@@ -1,3 +1,0 @@
-Main-Class: com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory
-FreeTTSVoiceDefinition: true
-Class-Path: cmulex.jar

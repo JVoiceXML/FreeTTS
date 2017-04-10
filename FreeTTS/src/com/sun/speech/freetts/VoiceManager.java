@@ -141,7 +141,7 @@ public class VoiceManager {
 
     /**
      * Creates an array of all voice directories of all available voices using
-     * the criteria specified by the contract for getVoices().
+     * the criteria specified by the contract for {@link #getVoices()}.
      * 
      * @return the voice directories
      * @see getVoices()
@@ -532,7 +532,7 @@ public class VoiceManager {
      * Get the directory that the jar file containing this class resides in.
      * 
      * @return the name of the directory with a trailing "/" (or equivalent for
-     *         the particular operating system), or "" if unable to determin.
+     *         the particular operating system), or "" if unable to determine.
      *         (For example this class does not reside inside a jar file).
      */
     private String getBaseDirectory() {
@@ -582,7 +582,7 @@ public class VoiceManager {
             throws FileNotFoundException, IOException {
         InputStream is = new FileInputStream(fileName);
         if (is == null) {
-            throw new IOException();
+            throw new IOException("unable to open '" + fileName + "'");
         } else {
             return getVoiceDirectoryNamesFromInputStream(is);
         }
