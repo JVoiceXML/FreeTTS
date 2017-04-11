@@ -331,7 +331,7 @@ public abstract class Voice implements UtteranceProcessor, Dumpable {
 		lexicon.load();
 	    } catch (IOException ioe) {
 	        LOGGER.severe("Can't load voice " + ioe);
-	        throw new Error(ioe);
+	        throw new Error("Can't load voice " + ioe.getMessage(), ioe);
 	    }
 	}
 

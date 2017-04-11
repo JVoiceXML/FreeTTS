@@ -20,6 +20,7 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Collection;
+import java.util.ServiceLoader;
 import java.util.jar.Attributes;
 
 /**
@@ -192,9 +193,16 @@ public class VoiceManager {
                 }
             }
 
+            
             // Create an instance of each voice directory
             UniqueVector<VoiceDirectory> voiceDirectories =
                 new UniqueVector<VoiceDirectory>();
+            final ServiceLoader<VoiceDirectory> directories =
+                    ServiceLoader.load(VoiceDirectory.class);
+            for (VoiceDirectory directory : directories) {
+                voiceDirectories.add(directory);
+            }
+            
             for (int i = 0; i < voiceDirectoryNames.size(); i++) {
                 @SuppressWarnings("unchecked")
                 Class<VoiceDirectory> c =
@@ -206,13 +214,12 @@ public class VoiceManager {
 
             return voiceDirectories.elements();
         } catch (InstantiationException e) {
-            throw new Error("Unable to load voice directory. " + e);
+            throw new Error("Unable to load voice directory. " + e, e);
         } catch (ClassNotFoundException e) {
-            throw new Error("Unable to load voice directory. " + e);
+            throw new Error("Unable to load voice directory. " + e, e);
         } catch (IllegalAccessException e) {
-            throw new Error("Unable to load voice directory. " + e);
+            throw new Error("Unable to load voice directory. " + e, e);
         }
-
     }
 
     /**
