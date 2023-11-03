@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="FreeTTS/demo/freetts/ClientServer"/>
+	<classpathentry kind="src" path="FreeTTS/demo/freetts/Emacspeak"/>
+	<classpathentry kind="src" path="FreeTTS/demo/freetts/HelloWorld"/>
+	<classpathentry kind="src" path="FreeTTS/demo/JSAPI/Emacspeak"/>
+	<classpathentry kind="src" path="FreeTTS/demo/JSAPI/HelloWorld"/>
+	<classpathentry kind="src" path="FreeTTS/demo/JSAPI/JTime"/>
+	<classpathentry kind="src" path="FreeTTS/demo/JSAPI/MixedVoices"/>
+	<classpathentry kind="src" path="FreeTTS/demo/JSAPI/Player"/>
+	<classpathentry kind="src" path="FreeTTS/demo/JSAPI/WebStartClock"/>
+	<classpathentry kind="src" path="FreeTTS/demo/util"/>
+	<classpathentry kind="src" path="FreeTTS/rtp/src"/>
+	<classpathentry kind="src" path="FreeTTS/src"/>
+	<classpathentry kind="src" path="FreeTTS/tools/ArcticToFreeTTS/src"/>
+	<classpathentry kind="src" path="FreeTTS/tools/FestVoxToFreeTTS"/>
+	<classpathentry kind="src" path="FreeTTS/unittests"/>
+	<classpathentry kind="lib" path="FreeTTS/lib/maven-ant-tasks-2.1.3.jar"/>
+	<classpathentry kind="lib" path="FreeTTS/lib/jsapi.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
