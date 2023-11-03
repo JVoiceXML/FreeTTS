@@ -7,6 +7,8 @@
  */
 package com.sun.speech.freetts.audio;
 
+import java.util.concurrent.Semaphore;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
@@ -94,7 +96,7 @@ public class JavaStreamingAudioPlayer implements AudioPlayer {
     private long openFailDelayMs;
     private long totalOpenFailDelayMs;
 
-    private Object openLock = new Object();
+    private Semaphore openLock;
     private Object lineLock = new Object();
 
 
@@ -193,16 +195,14 @@ public class JavaStreamingAudioPlayer implements AudioPlayer {
             try {
                 line = (SourceDataLine) AudioSystem.getLine(info);
                 line.addLineListener(new JavaStreamLineListener());
-                
-                synchronized (openLock) {
-                    line.open(format, AUDIO_BUFFER_SIZE);
-                    try {
-                        openLock.wait();
-                    } catch (InterruptedException ie) {
-                        ie.printStackTrace();
-                    }
-                    opened = true;
-                }                
+		openLock = new Semaphore(0);
+		line.open(format, AUDIO_BUFFER_SIZE);
+		try {
+		    openLock.acquire();
+		    opened = true;
+		} catch (InterruptedException ie) {
+		    ie.printStackTrace();
+		}
             } catch (LineUnavailableException lue) {
                 System.err.println("LINE UNAVAILABLE: " +
                                    "Format is " + currentFormat);
@@ -644,9 +644,7 @@ public class JavaStreamingAudioPlayer implements AudioPlayer {
          */
         public void update(LineEvent event) {
             if (event.getType().equals(LineEvent.Type.OPEN)) {
-                synchronized (openLock) {
-                    openLock.notifyAll();
-                }
+		openLock.release();
             }
         }
     }
