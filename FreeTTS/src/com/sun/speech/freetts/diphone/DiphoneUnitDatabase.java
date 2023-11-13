@@ -552,34 +552,42 @@ public class DiphoneUnitDatabase {
      *
      * @param url the location  of the binary index file
      */
-    private void loadBinaryIndex(URL url) {
-
-	diphoneIndex = new HashMap();
-
-	try {
-	    InputStream is = Utilities.getInputStream(url);
-	    DataInputStream dis = new DataInputStream(is);
-
-	    if (dis.readInt() != INDEX_MAGIC) {
-		throw new Error("Bad index file format");
-	    }
-
-	    int size = dis.readInt();
-
-	    for (int i = 0; i < size; i++) {
-		String diphoneName = dis.readUTF();
-		int pos = dis.readInt();
-		diphoneIndex.put(diphoneName, new Integer(pos));
-	    }
-	    dis.close();
-
-	} catch (FileNotFoundException fe) {
-	    throw new Error("Can't load binary index " +
-		    fe.getMessage());
-	} catch (IOException ioe) {
-	    throw new Error("Can't read binary index " +
-		    ioe.getMessage());
-	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void loadBinaryIndex(URL url) {
+		diphoneIndex = new HashMap();
+	
+		DataInputStream dis = null;
+		try {
+		    InputStream is = Utilities.getInputStream(url);
+		    dis = new DataInputStream(is);
+	
+		    if (dis.readInt() != INDEX_MAGIC) {
+		    	throw new Error("Bad index file format");
+		    }
+	
+		    int size = dis.readInt();
+	
+		    for (int i = 0; i < size; i++) {
+		    	String diphoneName = dis.readUTF();
+		    	int pos = dis.readInt();
+		    	diphoneIndex.put(diphoneName, new Integer(pos));
+		    }
+		} catch (FileNotFoundException fe) {
+		    throw new Error("Can't load binary index " + url + ": " +
+			    fe.getMessage());
+		} catch (IOException ioe) {
+		    throw new Error("Can't read binary index " + url + ": " +
+			    ioe.getMessage());
+		} finally {
+			if (dis != null) {
+				try {
+					dis.close();
+				} catch (IOException e) {
+				    throw new Error("Can't close input stream " +
+						    url);
+				}
+			}
+		}
     }
 
     /**
