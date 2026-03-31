@@ -2,5 +2,7 @@
 /bld/
 /deploy/
 /javadoc/
-/bin/
 /.recommenders/
+# Gradle build outputs
+/build/
+/.gradle/
