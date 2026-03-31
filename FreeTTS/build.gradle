@@ -1,0 +1,218 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.sun.speech'
+version = '1.2.3-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+// jsapi.jar lives in lib/ and must stay there; use a direct files() dependency
+// so it is picked up when present without requiring a Maven-style repository.
+def jsapiJar = file('lib/jsapi.jar')
+
+repositories {
+    flatDir {
+        dirs 'lib'
+    }
+}
+
+dependencies {
+    if (jsapiJar.exists()) {
+        compileOnly files('lib/jsapi.jar')
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Source sets
+//
+// The Ant build keeps all source under src/ (com/** and de/**).  Tests live
+// in src/tests/** and are intentionally excluded from the main compilation.
+// When jsapi.jar is absent the JSAPI-dependent packages are also excluded,
+// matching the original "no_jsapi" patternset.
+// ---------------------------------------------------------------------------
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+            exclude 'tests/**'
+            if (!jsapiJar.exists()) {
+                exclude 'com/sun/speech/engine/**'
+                exclude 'com/sun/speech/freetts/jsapi/**'
+            }
+        }
+        resources {
+            srcDirs = ['src']
+            exclude '**/*.java'
+            exclude '**/*.html'
+            exclude 'tests/**'
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src']
+            include 'tests/**'
+        }
+        resources {
+            srcDirs = ['src']
+            include 'tests/**'
+            exclude '**/*.java'
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Helpers shared by all JavaExec tasks
+// ---------------------------------------------------------------------------
+def srcDir      = file('src').absolutePath
+def classesDir  = "${buildDir}/classes/java/main"
+def taskCp      = { sourceSets.main.output + configurations.compileClasspath }
+
+// ---------------------------------------------------------------------------
+// Voice binary generation tasks (JavaExec)
+//
+// Each task runs the appropriate class against a specific voice data directory
+// to generate the binary database files that will be bundled into the JAR.
+// They depend on `classes` so the compiled output is available, and they are
+// all wired as dependencies of `jar` so they run before the archive is built.
+// ---------------------------------------------------------------------------
+
+// --- kal8 diphone voice ---
+def kal8Path = 'com/sun/speech/freetts/en/us/cmu_us_kal'
+tasks.register('kal8Db', JavaExec) {
+    dependsOn classes
+    description = 'Generate kal8 diphone voice binaries'
+    group       = 'build'
+    classpath   = taskCp()
+    mainClass   = 'com.sun.speech.freetts.diphone.DiphoneUnitDatabase'
+    args '-src',              "${srcDir}/${kal8Path}",
+         '-dest',             "${classesDir}/${kal8Path}",
+         '-generate_binary',  'cmu_us_kal.txt'
+}
+
+// --- kal16 diphone voice ---
+def kal16Path = 'com/sun/speech/freetts/en/us/cmu_us_kal'
+tasks.register('kal16Db', JavaExec) {
+    dependsOn classes
+    description = 'Generate kal16 diphone voice binaries'
+    group       = 'build'
+    classpath   = taskCp()
+    mainClass   = 'com.sun.speech.freetts.diphone.DiphoneUnitDatabase'
+    args '-src',              "${srcDir}/${kal16Path}",
+         '-dest',             "${classesDir}/${kal16Path}",
+         '-generate_binary',  'cmu_us_kal16.txt'
+}
+
+// --- cmu_time_awb cluster-unit voice ---
+def timeAwbPath = 'com/sun/speech/freetts/en/us/cmu_time_awb'
+tasks.register('timeAwbDb', JavaExec) {
+    dependsOn classes
+    description = 'Generate cmu_time_awb cluster-unit voice binaries'
+    group       = 'build'
+    classpath   = taskCp()
+    mainClass   = 'com.sun.speech.freetts.clunits.ClusterUnitDatabase'
+    args '-src',              "${srcDir}/${timeAwbPath}",
+         '-dest',             "${classesDir}/${timeAwbPath}",
+         '-generate_binary',  'cmu_time_awb.txt'
+}
+
+// ---------------------------------------------------------------------------
+// Lexicon binary generation tasks (JavaExec)
+//
+// The LTS (letter-to-sound) binary must be built first; the main lexicon task
+// depends on it in addition to `classes`.
+// ---------------------------------------------------------------------------
+def lexPath = 'com/sun/speech/freetts/en/us'
+
+// --- cmulex ---
+tasks.register('cmulexLtsDb', JavaExec) {
+    dependsOn classes
+    description = 'Generate cmulex letter-to-sound binary'
+    group       = 'build'
+    classpath   = taskCp()
+    mainClass   = 'com.sun.speech.freetts.lexicon.LetterToSoundImpl'
+    args '-src',  "${srcDir}/${lexPath}",
+         '-dest', "${classesDir}/${lexPath}",
+         '-name', 'cmulex_lts',
+         '-generate_binary'
+}
+
+tasks.register('cmulexDb', JavaExec) {
+    dependsOn classes, 'cmulexLtsDb'
+    description = 'Generate cmulex compiled and addenda binaries'
+    group       = 'build'
+    classpath   = taskCp()
+    mainClass   = 'com.sun.speech.freetts.en.us.CMULexicon'
+    args '-src',  "${srcDir}/${lexPath}",
+         '-dest', "${classesDir}/${lexPath}",
+         '-name', 'cmulex',
+         '-generate_binary'
+}
+
+// --- cmudict04 ---
+tasks.register('cmudict04LtsDb', JavaExec) {
+    dependsOn classes
+    description = 'Generate cmudict04 letter-to-sound binary'
+    group       = 'build'
+    classpath   = taskCp()
+    mainClass   = 'com.sun.speech.freetts.lexicon.LetterToSoundImpl'
+    args '-src',  "${srcDir}/${lexPath}",
+         '-dest', "${classesDir}/${lexPath}",
+         '-name', 'cmudict04_lts',
+         '-generate_binary'
+}
+
+tasks.register('cmudict04Db', JavaExec) {
+    dependsOn classes, 'cmudict04LtsDb'
+    description = 'Generate cmudict04 compiled and addenda binaries'
+    group       = 'build'
+    classpath   = taskCp()
+    mainClass   = 'com.sun.speech.freetts.en.us.CMULexicon'
+    args '-src',  "${srcDir}/${lexPath}",
+         '-dest', "${classesDir}/${lexPath}",
+         '-name', 'cmudict04',
+         '-generate_binary'
+}
+
+// --- cmutimelex ---
+tasks.register('cmutimelexLtsDb', JavaExec) {
+    dependsOn classes
+    description = 'Generate cmutimelex letter-to-sound binary'
+    group       = 'build'
+    classpath   = taskCp()
+    mainClass   = 'com.sun.speech.freetts.lexicon.LetterToSoundImpl'
+    args '-src',  "${srcDir}/${lexPath}",
+         '-dest', "${classesDir}/${lexPath}",
+         '-name', 'cmutimelex_lts',
+         '-generate_binary'
+}
+
+tasks.register('cmutimelexDb', JavaExec) {
+    dependsOn classes, 'cmutimelexLtsDb'
+    description = 'Generate cmutimelex compiled and addenda binaries'
+    group       = 'build'
+    classpath   = taskCp()
+    mainClass   = 'com.sun.speech.freetts.en.us.CMULexicon'
+    args '-src',  "${srcDir}/${lexPath}",
+         '-dest', "${classesDir}/${lexPath}",
+         '-name', 'cmutimelex',
+         '-generate_binary'
+}
+
+// ---------------------------------------------------------------------------
+// Wire all voice and lexicon generation tasks to execute before the JAR is
+// assembled.  This ensures binary data files are present in the classes
+// output directory when the archive is created.
+// ---------------------------------------------------------------------------
+jar.dependsOn 'kal8Db', 'kal16Db', 'timeAwbDb',
+              'cmulexDb', 'cmudict04Db', 'cmutimelexDb'
+
+jar {
+    manifest {
+        attributes 'Main-Class':            'com.sun.speech.freetts.FreeTTS',
+                   'Implementation-Title':  'FreeTTS'
+    }
+}
