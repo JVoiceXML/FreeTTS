@@ -2,9 +2,6 @@ plugins {
     id 'java'
 }
 
-group = 'com.sun.speech'
-version = '1.2.3-SNAPSHOT'
-
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -276,12 +273,12 @@ if (jsapiJar.exists()) {
     jar.dependsOn 'freettsJsapi10Jar'
 }
 
-// mbrola/mbrola.jar – MBROLA voice support.
+// mbrola/mbrola-${version}.jar – MBROLA voice support.
 tasks.register('mbrolaJar', Jar) {
     dependsOn classes
-    description = 'Create mbrola/mbrola.jar'
+    description = "Create mbrola/mbrola-${version}.jar"
     group       = 'build'
-    archiveFileName = 'mbrola.jar'
+    archiveFileName = "mbrola-${version}.jar"
     destinationDirectory = file('mbrola')
     from(sourceSets.main.output) {
         include 'de/dfki/lt/freetts/mbrola/**'
@@ -357,12 +354,12 @@ tasks.register('cmutimelexJar', Jar) {
     }
 }
 
-// lib/germanlex.jar – German lexicon binary data.
+// lib/germanlex-${version}.jar – German lexicon binary data.
 tasks.register('germanLexJar', Jar) {
     dependsOn 'germanLexDb'
-    description = 'Create lib/germanlex.jar'
+    description = "Create lib/germanlex-${version}.jar"
     group       = 'build'
-    archiveFileName = 'germanlex.jar'
+    archiveFileName = "germanlex-${version}.jar"
     destinationDirectory = file('lib')
     from(classesDir) {
         include 'de/dfki/lt/freetts/de/germanlex_*.bin'
@@ -423,9 +420,9 @@ if (project.hasProperty('arctic_voice')) {
     def arcticVoice = project.property('arctic_voice')
     tasks.register('arcticVoiceJar', Jar) {
         dependsOn classes
-        description = "Create lib/${arcticVoice}.jar"
+        description = "Create lib/${arcticVoice}-${version}.jar"
         group       = 'build'
-        archiveFileName = "${arcticVoice}.jar"
+        archiveFileName = "${arcticVoice}-${version}.jar"
         destinationDirectory = file('lib')
         from(classesDir) {
             include "com/sun/speech/freetts/en/us/${arcticVoice}/**"
@@ -452,9 +449,9 @@ if (userVoice) {
     def userVoicePath = "${userVoiceBasePath}/${userVoice}"
     tasks.register('userVoiceJar', Jar) {
         dependsOn classes
-        description = "Create lib/${userVoice}.jar"
+        description = "Create lib/${userVoice}-${version}.jar"
         group       = 'build'
-        archiveFileName = "${userVoice}.jar"
+        archiveFileName = "${userVoice}-${version}.jar"
         destinationDirectory = file('lib')
         from(classesDir) {
             include "${userVoicePath}/**"
