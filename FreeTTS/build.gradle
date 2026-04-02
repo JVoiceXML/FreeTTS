@@ -245,9 +245,6 @@ jar {
     exclude 'tests/**'
     exclude '**/*.bin'
     exclude '**/*.idx'
-    from(file(srcDir)) {
-        include 'com/sun/speech/freetts/internal_voices.txt'
-    }
     manifest {
         attributes 'Main-Class':           'com.sun.speech.freetts.FreeTTS',
                    'Implementation-Title': 'FreeTTS core library'
