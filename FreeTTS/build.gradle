@@ -241,7 +241,7 @@ jar {
     exclude 'com/sun/speech/freetts/jsapi/**'
     exclude 'de/dfki/lt/freetts/en/**'
     exclude 'de/dfki/lt/freetts/de/**'
-    exclude 'de/dfki/lt/mbrola/**'
+    exclude 'de/dfki/lt/freetts/mbrola/**'
     exclude 'tests/**'
     exclude '**/*.bin'
     exclude '**/*.idx'
