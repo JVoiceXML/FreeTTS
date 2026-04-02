@@ -73,8 +73,10 @@ def taskCp      = { sourceSets.main.output + configurations.compileClasspath }
 //
 // Each task runs the appropriate class against a specific voice data directory
 // to generate the binary database files that will be bundled into the JAR.
-// They depend on `classes` so the compiled output is available, and they are
-// all wired as dependencies of `jar` so they run before the archive is built.
+// They depend on `classes` so the compiled output is available, and are
+// intended to be wired as dependencies of the JAR-producing tasks (for example,
+// the per-voice or aggregate/component JAR tasks) so they run before archives
+// are built.
 // ---------------------------------------------------------------------------
 
 // --- kal8 diphone voice ---
