@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+// jsapi.jar lives in the parent project's lib/ directory.
+def jsapiJar = file('../lib/jsapi.jar')
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':')
+    if (jsapiJar.exists()) {
+        compileOnly files(jsapiJar)
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Source sets
+//
+// Standard Gradle layout:
+//   src/main/java      – demo Java sources
+//
+// When jsapi.jar is absent the JSAPI-dependent demos are excluded from the
+// compilation.
+// ---------------------------------------------------------------------------
+if (!jsapiJar.exists()) {
+    sourceSets {
+        main {
+            java {
+                exclude 'JSAPI/**'
+            }
+        }
+    }
+}
