@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>FreeTTS</name>
-	<comment></comment>
+	<name>FreeTTSRoot</name>
+	<comment>Overarching FreeTTS root project</comment>
 	<projects>
+		<project>FreeTTS</project>
+		<project>FreeTTSDemo</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>org.eclipse.jdt.core.javabuilder</name>
+			<name>org.eclipse.buildship.core.gradleprojectbuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.eclipse.buildship.core.gradleprojectnature</nature>
 	</natures>
 </projectDescription>

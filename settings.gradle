@@ -1,0 +1,3 @@
+rootProject.name = 'FreeTTSRoot'
+include 'FreeTTS'
+include 'FreeTTSDemo'
