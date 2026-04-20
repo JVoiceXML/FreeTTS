@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<!--
+
+/**
+ * Copyright 2001,2003,2005 Sun Microsystems, Inc.
+ * 
+ * See the file "license.terms" for information on usage and
+ * redistribution of this file, and for a DISCLAIMER OF ALL 
+ * WARRANTIES.
+ */
+
+-->
+
+<html>
+    <head><title>Emacspeak Demo (non-JSAPI version)</title></head>
+    <body>
+        <center>
+            <table bgcolor="#FFCC66" width="100%">
+                <tr>
+                    <td align=center width="100%">
+	                <h1>Emacspeak Demo (non-JSAPI version)</h1>
+                    </td>
+                </tr>
+            </table>
+        </center>
+
+        <p>This demo implements a text-to-speech server that can be
+        used with Emacspeak. This is the non-JSAPI version, for the
+        JSAPI version, refer to <a
+        href="../../JSAPI/Emacspeak/README.html">JSAPI Emacspeak</a>
+        (If this link doesn't work, it may be because you have the
+        stripped down "JSAPI Free" version of FreeTTS.  To get the
+        full version, go to <a href="http://freetts.sourceforge.net/">
+        http://freetts.sourceforge.net</a>).
+
+        <h3>Building</h3>
+        <p>To build this demo, merely type the following in a shell from
+	any directory in the FreeTTS hierarchy:
+        <ul>
+            <code>ant -find demo.xml</code>
+        </ul>
+        <p>Doing so will create
+        <code>bin/FreeTTSEmacspeakServer.jar</code> under the top level
+	directory.  You can run the demo
+        using <code>java -jar</code> (see "Running the Server" below).
+        This version is sensitive to the existence and location of the
+        <code>lib</code> directory, but allows you to drop new voice
+        jar files into the voice directory and take advantage of them.
+
+        <p>If you want a self-contained version (i.e., one that
+        includes all it needs in one file and doesn't depend upon
+        anything else), you can build the self-contained version by
+        typing the following in a shell at the top level directory
+	in the FreeTTS hierarchy:
+        <ul>
+            <code>ant emacspeak-server</code>
+        </ul>
+        <p>Doing so will create
+        <code>emacspeak-server.jar</code> at the top level.  You can
+        run this server as described below by merely substituting
+        <code>emacspeak-server.jar</code> for 
+        <code>bin/FreeTTSEmacspeakServer.jar</code>.
+
+        <h3>Running the Server</h3>
+        <p>To run this demo, type the following command from a command
+        window at the top level FreeTTS directory:</p>
+        <ul>
+            <p><code>java -jar bin/FreeTTSEmacspeakServer.jar</code></p>
+        </ul>
+
+        <p>This runs the TTS Server at port 2222. To change the port,
+        modify the "port" system property:
+        <ul>
+            <p><code>java -Dport=2222 -jar bin/FreeTTSEmacspeakServer.jar</code></p>
+        </ul>
+
+        <p>The following should appear:
+        <ul>
+            <code>Waiting on ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=2222]</code>
+        </ul>
+
+        <h3>Specifying a Voice</h3> 
+
+        <p>By default, this application will use the "kevin16" voice
+        that comes with the lib/cmu_us_kal.jar file.  You can, however,
+        specify a voice by passing the name of a voice as the
+        first (and only) parameter on the command line:</p>
+        <ul>
+            <p><code>java -jar bin/FreeTTSEmacspeakServer.jar kevin</code>
+            <br><code>java -jar bin/FreeTTSEmacspeakServer.jar kevin16</code>
+            <br><code>java -Dmbrola.base=/usr/local/mbrola -jar
+            bin/FreeTTSEmacspeakServer.jar mbrola_us1</code> (*)</p>
+	</ul>
+    
+        <p>(*) You must <a href="../../../mbrola/README.html">setup
+        and install MBROLA</a> before using MBROLA voices.</p>
+
+        <h3>Specifying Speaking Rate</h3> 
+
+        <p>By default, this application will use the default speaking
+        rate of a voice.  To change the speaking rate, you must
+        specify the voice as the first parameter on the command line
+        (as above) and then specify the speaking rate as the second
+        parameter.  The speaking rate is nominally the words per minute:</p>
+        <ul>
+            <p><code>java -jar bin/FreeTTSEmacspeakServer.jar kevin16 250</code>
+	</ul>
+    
+        <h3>Connecting to the Server from Emacspeak</h3>
+        <p>In your emacspeak (i.e., emacs with emacspeak running), type the
+	following command:
+        <ul>
+            <code>M-x emacspeak-remote-connect-to-server</code>
+	</ul>
+
+        <p>When you are prompted with "<b>Remote host:</b>", specify the
+        machine the Emacspeak TTS Server is running. The port is 2222
+        by default. Emacspeak should connect to the TTS Server.
+
+        <p>At this point, you should hear "<b>Connecting to server on 
+	host...</b>" at your emacspeak client. You should see the following 
+	on the server-side:
+	<ul>
+<pre>
+Waiting on ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=2222]
+IN   : tts_set_punctuations all
+SPEAK:
+IN   : tts_capitalize 0
+SPEAK:
+IN   : tts_allcaps_beep 0
+SPEAK:
+IN   : tts_split_caps  1
+SPEAK:
+IN   : tts_set_speech_rate 225
+SPEAK:
+IN   : tts_set_character_scale 1.25
+SPEAK:
+IN   : s
+IN   : q {Connecting to server on host sunlabs.east  port 2222 }
+Connecting to server on host sunlabs.east  port 2222
+SPEAK: "Connecting to server on host sunlabs.east  port 2222"
+IN   : d
+SPEAK:
+IN   : d
+SPEAK:
+IN   : tts_set_punctuations some
+SPEAK:
+IN   : tts_capitalize 0
+SPEAK:
+IN   : tts_allcaps_beep 0
+SPEAK:
+IN   : tts_split_caps  1
+SPEAK:
+IN   : tts_set_speech_rate 225
+SPEAK:
+IN   : tts_set_character_scale 1.25
+SPEAK:
+IN   : d
+SPEAK:
+</pre>
+        </ul>
+
+        <hr>
+
+        <p>See the <a href="../../../license.terms">license terms</a>
+        and <a href="../../../acknowledgments.txt">acknowledgments</a>.
+        <br>
+        Copyright 2001,2003,2005 Sun Microsystems, Inc.  All Rights
+        Reserved.  Use is subject to license terms.</p>
+    </body>
+</html>
