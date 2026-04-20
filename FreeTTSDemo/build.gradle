@@ -7,15 +7,15 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-// jsapi.jar lives in the parent project's lib/ directory.
-def jsapiJar = file('../lib/jsapi.jar')
+// jsapi.jar lives in the FreeTTS subproject's lib/ directory.
+def jsapiJar = file('../FreeTTS/lib/jsapi.jar')
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation project(':')
+    implementation project(':FreeTTS')
     if (jsapiJar.exists()) {
         compileOnly files(jsapiJar)
     }
