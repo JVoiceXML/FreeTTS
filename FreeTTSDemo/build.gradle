@@ -39,3 +39,248 @@ if (!jsapiJar.exists()) {
         }
     }
 }
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+def freettsVersion = project(':FreeTTS').version
+def classesDir     = "${buildDir}/classes/java/main"
+def freeTTSJarTask = project(':FreeTTS').tasks.named('jar', Jar)
+def jsapiCp        = "../lib/freetts-${freettsVersion}.jar " +
+                     "../lib/freetts-jsapi10-${freettsVersion}.jar " +
+                     "../lib/jsapi.jar"
+
+tasks.register('prepareDemoLib', Sync) {
+    dependsOn project(':FreeTTS').tasks.named('assemble')
+    description = 'Copy FreeTTS runtime jars into FreeTTSDemo/lib for runnable demo jars'
+    group       = 'build'
+    into layout.projectDirectory.dir('lib')
+
+    from(project(':FreeTTS').layout.buildDirectory.dir('libs')) {
+        include '*.jar'
+        rename { fileName ->
+            fileName == freeTTSJarTask.get().archiveFileName.get() ? "freetts-${freettsVersion}.jar" : fileName
+        }
+    }
+
+    if (jsapiJar.exists()) {
+        from(jsapiJar)
+    }
+}
+
+tasks.withType(Jar).configureEach {
+    dependsOn tasks.named('prepareDemoLib')
+}
+// ---------------------------------------------------------------------------
+// Non-JSAPI (freetts) demo JARs
+// ---------------------------------------------------------------------------
+
+// bin/Client.jar – client side of the FreeTTS client-server demo
+tasks.register('clientJar', Jar) {
+    dependsOn classes
+    description = 'Create bin/Client.jar (FreeTTS client-server client)'
+    group       = 'build'
+    archiveFileName = 'Client.jar'
+    destinationDirectory = file('bin')
+    from(classesDir) {
+        include 'Client.class'
+    }
+    manifest {
+        attributes 'Main-Class':           'Client',
+                   'Class-Path':           "../lib/freetts-${freettsVersion}.jar",
+                   'Implementation-Title': 'client side of the FreeTTS client-server demo'
+    }
+}
+
+// bin/Server.jar – server side of the FreeTTS client-server demo
+tasks.register('serverJar', Jar) {
+    dependsOn classes
+    description = 'Create bin/Server.jar (FreeTTS client-server server)'
+    group       = 'build'
+    archiveFileName = 'Server.jar'
+    destinationDirectory = file('bin')
+    from(classesDir) {
+        include 'Server.class'
+        include 'SocketAudioPlayer.class'
+        include 'SocketTTSHandler.class'
+        include 'TTSServer.class'
+    }
+    manifest {
+        attributes 'Main-Class':           'Server',
+                   'Class-Path':           "../lib/freetts-${freettsVersion}.jar",
+                   'Implementation-Title': 'server side of the FreeTTS client-server demo'
+    }
+}
+
+// bin/FreeTTSEmacspeakServer.jar – FreeTTS (non-JSAPI) Emacspeak server
+tasks.register('freeTTSEmacspeakServerJar', Jar) {
+    dependsOn classes
+    description = 'Create bin/FreeTTSEmacspeakServer.jar (FreeTTS Emacspeak server)'
+    group       = 'build'
+    archiveFileName = 'FreeTTSEmacspeakServer.jar'
+    destinationDirectory = file('bin')
+    from(classesDir) {
+        include 'FreeTTSEmacspeakServer.class'
+        include 'FreeTTSEmacspeakHandler.class'
+        include 'FreeTTSEmacspeakHandler$*.class'
+        include 'EmacspeakProtocolHandler.class'
+        include 'TTSServer.class'
+    }
+    manifest {
+        from file('src/main/java/freetts/Emacspeak/Manifest')
+    }
+}
+
+// bin/FreeTTSHelloWorld.jar – FreeTTS HelloWorld demo
+tasks.register('freeTTSHelloWorldJar', Jar) {
+    dependsOn classes
+    description = 'Create bin/FreeTTSHelloWorld.jar (FreeTTS HelloWorld demo)'
+    group       = 'build'
+    archiveFileName = 'FreeTTSHelloWorld.jar'
+    destinationDirectory = file('bin')
+    from(classesDir) {
+        include 'FreeTTSHelloWorld.class'
+    }
+    manifest {
+        from file('src/main/java/freetts/HelloWorld/Manifest')
+    }
+}
+
+// ---------------------------------------------------------------------------
+// JSAPI demo JARs – only when jsapi.jar is present
+// ---------------------------------------------------------------------------
+if (jsapiJar.exists()) {
+
+    // bin/EmacspeakServer.jar – JSAPI Emacspeak server
+    tasks.register('jsapiEmacspeakServerJar', Jar) {
+        dependsOn classes
+        description = 'Create bin/EmacspeakServer.jar (JSAPI Emacspeak server)'
+        group       = 'build'
+        archiveFileName = 'EmacspeakServer.jar'
+        destinationDirectory = file('bin')
+        from(classesDir) {
+            include 'EmacspeakServer.class'
+            include 'JSAPIEmacspeakHandler.class'
+            include 'EmacspeakProtocolHandler.class'
+            include 'TTSServer.class'
+        }
+        manifest {
+            attributes 'Main-Class':           'EmacspeakServer',
+                       'Class-Path':           jsapiCp,
+                       'Implementation-Title': 'Emacspeak server'
+        }
+    }
+
+    // bin/HelloWorld.jar – JSAPI HelloWorld demo
+    tasks.register('jsapiHelloWorldJar', Jar) {
+        dependsOn classes
+        description = 'Create bin/HelloWorld.jar (JSAPI HelloWorld demo)'
+        group       = 'build'
+        archiveFileName = 'HelloWorld.jar'
+        destinationDirectory = file('bin')
+        from(classesDir) {
+            include 'HelloWorld.class'
+        }
+        manifest {
+            attributes 'Main-Class': 'HelloWorld',
+                       'Class-Path': "../lib/freetts-${freettsVersion}.jar " +
+                                     "../lib/freetts-jsapi10-${freettsVersion}.jar " +
+                                     "../lib/cmudict04-${freettsVersion}.jar " +
+                                     "../lib/cmulex-${freettsVersion}.jar " +
+                                     "../lib/en_us-${freettsVersion}.jar " +
+                                     "../lib/cmu_us_kal-${freettsVersion}.jar " +
+                                     "../lib/jsapi.jar",
+                       'Implementation-Title': 'FreeTTS JSAPI 1.0 hello world demo'
+        }
+    }
+
+    // bin/JTime.jar – JSAPI JTime demo
+    tasks.register('jTimeJar', Jar) {
+        dependsOn classes
+        description = 'Create bin/JTime.jar (JSAPI JTime demo)'
+        group       = 'build'
+        archiveFileName = 'JTime.jar'
+        destinationDirectory = file('bin')
+        from(classesDir) {
+            include 'JTime.class'
+            include 'TimeUtils.class'
+        }
+        manifest {
+            attributes 'Main-Class':           'JTime',
+                       'Class-Path':           jsapiCp,
+                       'Implementation-Title': 'FreeTTS JSAPI 1.0 JTime demo'
+        }
+    }
+
+    // bin/MixedVoices.jar – JSAPI MixedVoices demo
+    tasks.register('mixedVoicesJar', Jar) {
+        dependsOn classes
+        description = 'Create bin/MixedVoices.jar (JSAPI MixedVoices demo)'
+        group       = 'build'
+        archiveFileName = 'MixedVoices.jar'
+        destinationDirectory = file('bin')
+        from(classesDir) {
+            include 'MixedVoices.class'
+        }
+        manifest {
+            attributes 'Main-Class':           'MixedVoices',
+                       'Class-Path':           jsapiCp,
+                       'Implementation-Title': 'FreeTTS JSAPI 1.0 mixed voices demo'
+        }
+    }
+
+    // bin/Player.jar – JSAPI Player demo
+    tasks.register('playerJar', Jar) {
+        dependsOn classes
+        description = 'Create bin/Player.jar (JSAPI Player demo)'
+        group       = 'build'
+        archiveFileName = 'Player.jar'
+        destinationDirectory = file('bin')
+        from(classesDir) {
+            include 'Player.class'
+            include 'Playable.class'
+            include 'PlayableType.class'
+            include 'PlayerModel.class'
+            include 'PlayerModelImpl.class'
+            include 'PlayerPanel.class'
+            include 'Monitor.class'
+        }
+        manifest {
+            attributes 'Main-Class':           'Player',
+                       'Class-Path':           jsapiCp,
+                       'Implementation-Title': 'FreeTTS JSAPI 1.0 player demo'
+        }
+    }
+
+    // bin/WebStartClock.jar – JSAPI WebStartClock demo
+    tasks.register('webStartClockJar', Jar) {
+        dependsOn classes
+        description = 'Create bin/WebStartClock.jar (JSAPI WebStartClock demo)'
+        group       = 'build'
+        archiveFileName = 'WebStartClock.jar'
+        destinationDirectory = file('bin')
+        from(classesDir) {
+            include 'JSAPIClock.class'
+            include 'Clock.class'
+            include 'TimeUtils.class'
+        }
+        manifest {
+            attributes 'Main-Class':           'JSAPIClock',
+                       'Class-Path':           jsapiCp,
+                       'Implementation-Title': 'FreeTTS JSAPI 1.0 webstart clock demo'
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// 'demoJars' aggregate task – builds all demo JARs (mirrors Ant's 'all' target)
+// ---------------------------------------------------------------------------
+tasks.register('demoJars') {
+    description = 'Builds all demo JAR files'
+    group       = 'build'
+    dependsOn 'clientJar', 'serverJar', 'freeTTSEmacspeakServerJar', 'freeTTSHelloWorldJar'
+    if (jsapiJar.exists()) {
+        dependsOn 'jsapiEmacspeakServerJar', 'jsapiHelloWorldJar', 'jTimeJar',
+                  'mixedVoicesJar', 'playerJar', 'webStartClockJar'
+    }
+}
