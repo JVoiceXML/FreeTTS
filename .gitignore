@@ -2,3 +2,5 @@
 /RemoteSystemsTempFiles
 /bin/
 /.gradle/
+/build/
+**/build/

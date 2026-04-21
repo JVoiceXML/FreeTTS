@@ -53,7 +53,7 @@ def jsapiCp        = "freetts-${freettsVersion}.jar " +
 // Copy (not Sync) is used here so that demo JARs written to the same build/libs
 // directory by later Jar tasks are not deleted when this task re-runs incrementally.
 tasks.register('prepareDemoLib', Copy) {
-    dependsOn project(':FreeTTS').tasks.named('assemble')
+    dependsOn project(':FreeTTS').tasks.named('jars')
     description = 'Copy FreeTTS runtime jars into FreeTTSDemo/build/libs for runnable demo jars'
     group       = 'build'
     into layout.buildDirectory.dir('libs')
@@ -77,7 +77,7 @@ tasks.withType(Jar).configureEach {
 // Non-JSAPI (freetts) demo JARs
 // ---------------------------------------------------------------------------
 
-// bin/Client.jar – client side of the FreeTTS client-server demo
+// Client.jar – client side of the FreeTTS client-server demo
 tasks.register('clientJar', Jar) {
     dependsOn classes
     description = 'Create Client.jar (FreeTTS client-server client)'
@@ -93,7 +93,7 @@ tasks.register('clientJar', Jar) {
     }
 }
 
-// bin/Server.jar – server side of the FreeTTS client-server demo
+// Server.jar – server side of the FreeTTS client-server demo
 tasks.register('serverJar', Jar) {
     dependsOn classes
     description = 'Create Server.jar (FreeTTS client-server server)'
@@ -112,7 +112,7 @@ tasks.register('serverJar', Jar) {
     }
 }
 
-// bin/FreeTTSEmacspeakServer.jar – FreeTTS (non-JSAPI) Emacspeak server
+// FreeTTSEmacspeakServer.jar – FreeTTS (non-JSAPI) Emacspeak server
 tasks.register('freeTTSEmacspeakServerJar', Jar) {
     dependsOn classes
     description = 'Create FreeTTSEmacspeakServer.jar (FreeTTS Emacspeak server)'
@@ -130,7 +130,7 @@ tasks.register('freeTTSEmacspeakServerJar', Jar) {
     }
 }
 
-// bin/FreeTTSHelloWorld.jar – FreeTTS HelloWorld demo
+// FreeTTSHelloWorld.jar – FreeTTS HelloWorld demo
 tasks.register('freeTTSHelloWorldJar', Jar) {
     dependsOn classes
     description = 'Create FreeTTSHelloWorld.jar (FreeTTS HelloWorld demo)'
@@ -149,7 +149,7 @@ tasks.register('freeTTSHelloWorldJar', Jar) {
 // ---------------------------------------------------------------------------
 if (jsapiJar.exists()) {
 
-    // bin/EmacspeakServer.jar – JSAPI Emacspeak server
+    // EmacspeakServer.jar – JSAPI Emacspeak server
     tasks.register('jsapiEmacspeakServerJar', Jar) {
         dependsOn classes
         description = 'Create EmacspeakServer.jar (JSAPI Emacspeak server)'
@@ -168,7 +168,7 @@ if (jsapiJar.exists()) {
         }
     }
 
-    // bin/HelloWorld.jar – JSAPI HelloWorld demo
+    // HelloWorld.jar – JSAPI HelloWorld demo
     tasks.register('jsapiHelloWorldJar', Jar) {
         dependsOn classes
         description = 'Create HelloWorld.jar (JSAPI HelloWorld demo)'
@@ -190,7 +190,7 @@ if (jsapiJar.exists()) {
         }
     }
 
-    // bin/JTime.jar – JSAPI JTime demo
+    // JTime.jar – JSAPI JTime demo
     tasks.register('jTimeJar', Jar) {
         dependsOn classes
         description = 'Create JTime.jar (JSAPI JTime demo)'
@@ -207,7 +207,7 @@ if (jsapiJar.exists()) {
         }
     }
 
-    // bin/MixedVoices.jar – JSAPI MixedVoices demo
+    // MixedVoices.jar – JSAPI MixedVoices demo
     tasks.register('mixedVoicesJar', Jar) {
         dependsOn classes
         description = 'Create MixedVoices.jar (JSAPI MixedVoices demo)'
@@ -223,7 +223,7 @@ if (jsapiJar.exists()) {
         }
     }
 
-    // bin/Player.jar – JSAPI Player demo
+    // Player.jar – JSAPI Player demo
     tasks.register('playerJar', Jar) {
         dependsOn classes
         description = 'Create Player.jar (JSAPI Player demo)'
@@ -245,7 +245,7 @@ if (jsapiJar.exists()) {
         }
     }
 
-    // bin/WebStartClock.jar – JSAPI WebStartClock demo
+    // WebStartClock.jar – JSAPI WebStartClock demo
     tasks.register('webStartClockJar', Jar) {
         dependsOn classes
         description = 'Create WebStartClock.jar (JSAPI WebStartClock demo)'

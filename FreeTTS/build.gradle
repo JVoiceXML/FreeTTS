@@ -397,7 +397,7 @@ tasks.register('cmuTimeAwbJar', Jar) {
     }
 }
 
-// lib/${arctic_voice}.jar – Optional CMU Arctic voice; enabled with -Parctic_voice=<name>.
+// ${arctic_voice}-${version}.jar – Optional CMU Arctic voice; enabled with -Parctic_voice=<name>.
 if (project.hasProperty('arctic_voice')) {
     def arcticVoice = project.property('arctic_voice')
     tasks.register('arcticVoiceJar', Jar) {
@@ -418,7 +418,7 @@ if (project.hasProperty('arctic_voice')) {
     }
 }
 
-// lib/${user_voice}.jar – Optional user-defined voice; enabled with -Pclunit_voice=<name>
+// ${user_voice}-${version}.jar – Optional user-defined voice; enabled with -Pclunit_voice=<name>
 // or -Pdiphone_voice=<name>.  An optional -Puser_voice_base_path overrides the default path.
 def userVoice = project.hasProperty('clunit_voice')  ? project.property('clunit_voice')
               : project.hasProperty('diphone_voice') ? project.property('diphone_voice')
