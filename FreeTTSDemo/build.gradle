@@ -45,10 +45,32 @@ if (!jsapiJar.exists()) {
 // ---------------------------------------------------------------------------
 def freettsVersion = project(':FreeTTS').version
 def classesDir     = "${buildDir}/classes/java/main"
+def freeTTSJarTask = project(':FreeTTS').tasks.named('jar', Jar)
 def jsapiCp        = "../lib/freetts-${freettsVersion}.jar " +
                      "../lib/freetts-jsapi10-${freettsVersion}.jar " +
                      "../lib/jsapi.jar"
 
+tasks.register('prepareDemoLib', Sync) {
+    dependsOn project(':FreeTTS').tasks.named('assemble')
+    description = 'Copy FreeTTS runtime jars into FreeTTSDemo/lib for runnable demo jars'
+    group       = 'build'
+    into layout.projectDirectory.dir('lib')
+
+    from(project(':FreeTTS').layout.buildDirectory.dir('libs')) {
+        include '*.jar'
+        rename { fileName ->
+            fileName == freeTTSJarTask.get().archiveFileName.get() ? "freetts-${freettsVersion}.jar" : fileName
+        }
+    }
+
+    if (jsapiJar.exists()) {
+        from(jsapiJar)
+    }
+}
+
+tasks.withType(Jar).configureEach {
+    dependsOn tasks.named('prepareDemoLib')
+}
 // ---------------------------------------------------------------------------
 // Non-JSAPI (freetts) demo JARs
 // ---------------------------------------------------------------------------
