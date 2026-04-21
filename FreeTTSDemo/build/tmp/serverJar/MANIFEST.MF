@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: Server
+Class-Path: ../lib/freetts-1.2.3-SNAPSHOT.jar
+Implementation-Title: server side of the FreeTTS client-server demo
+
