@@ -249,10 +249,9 @@ jar {
 if (jsapiJar.exists()) {
     tasks.register('freettsJsapi10Jar', Jar) {
         dependsOn classes
-        description = "Create lib/freetts-jsapi10-${version}.jar"
+        description = "Create freetts-jsapi10-${version}.jar"
         group       = 'build'
         archiveFileName = "freetts-jsapi10-${version}.jar"
-        destinationDirectory = file('lib')
         from(sourceSets.main.output) {
             include 'com/sun/speech/engine/**'
             include 'com/sun/speech/freetts/jsapi/**'
@@ -264,13 +263,12 @@ if (jsapiJar.exists()) {
     jar.dependsOn 'freettsJsapi10Jar'
 }
 
-// mbrola/mbrola-${version}.jar – MBROLA voice support.
+// mbrola-${version}.jar – MBROLA voice support.
 tasks.register('mbrolaJar', Jar) {
     dependsOn classes
-    description = "Create mbrola/mbrola-${version}.jar"
+    description = "Create mbrola-${version}.jar"
     group       = 'build'
     archiveFileName = "mbrola-${version}.jar"
-    destinationDirectory = file('mbrola')
     from(sourceSets.main.output) {
         include 'de/dfki/lt/freetts/mbrola/**'
         include 'de/dfki/lt/freetts/en/us/**'
@@ -280,13 +278,12 @@ tasks.register('mbrolaJar', Jar) {
     }
 }
 
-// lib/en_us-${version}.jar – American English voice support classes + data.
+// en_us-${version}.jar – American English voice support classes + data.
 tasks.register('enUsJar', Jar) {
     dependsOn classes
-    description = "Create lib/en_us-${version}.jar"
+    description = "Create en_us-${version}.jar"
     group       = 'build'
     archiveFileName = "en_us-${version}.jar"
-    destinationDirectory = file('lib')
     from(sourceSets.main.output) {
         include 'com/sun/speech/freetts/en/*.class'
         include 'com/sun/speech/freetts/en/us/*.class'
@@ -300,13 +297,12 @@ tasks.register('enUsJar', Jar) {
     }
 }
 
-// lib/cmulex-${version}.jar – CMU lexicon binary data.
+// cmulex-${version}.jar – CMU lexicon binary data.
 tasks.register('cmulexJar', Jar) {
     dependsOn 'cmulexDb'
-    description = "Create lib/cmulex-${version}.jar"
+    description = "Create cmulex-${version}.jar"
     group       = 'build'
     archiveFileName = "cmulex-${version}.jar"
-    destinationDirectory = file('lib')
     from(classesDir) {
         include 'com/sun/speech/freetts/en/us/cmulex_*.bin'
     }
@@ -315,13 +311,12 @@ tasks.register('cmulexJar', Jar) {
     }
 }
 
-// lib/cmudict04-${version}.jar – CMU pronunciation dictionary binary data.
+// cmudict04-${version}.jar – CMU pronunciation dictionary binary data.
 tasks.register('cmudict04Jar', Jar) {
     dependsOn 'cmudict04Db'
-    description = "Create lib/cmudict04-${version}.jar"
+    description = "Create cmudict04-${version}.jar"
     group       = 'build'
     archiveFileName = "cmudict04-${version}.jar"
-    destinationDirectory = file('lib')
     from(classesDir) {
         include 'com/sun/speech/freetts/en/us/cmudict04_*.bin'
     }
@@ -330,13 +325,12 @@ tasks.register('cmudict04Jar', Jar) {
     }
 }
 
-// lib/cmutimelex-${version}.jar – CMU time-domain lexicon binary data.
+// cmutimelex-${version}.jar – CMU time-domain lexicon binary data.
 tasks.register('cmutimelexJar', Jar) {
     dependsOn 'cmutimelexDb'
-    description = "Create lib/cmutimelex-${version}.jar"
+    description = "Create cmutimelex-${version}.jar"
     group       = 'build'
     archiveFileName = "cmutimelex-${version}.jar"
-    destinationDirectory = file('lib')
     from(classesDir) {
         include 'com/sun/speech/freetts/en/us/cmutimelex_*.bin'
     }
@@ -345,13 +339,12 @@ tasks.register('cmutimelexJar', Jar) {
     }
 }
 
-// lib/germanlex-${version}.jar – German lexicon binary data.
+// germanlex-${version}.jar – German lexicon binary data.
 tasks.register('germanLexJar', Jar) {
     dependsOn 'germanLexDb'
-    description = "Create lib/germanlex-${version}.jar"
+    description = "Create germanlex-${version}.jar"
     group       = 'build'
     archiveFileName = "germanlex-${version}.jar"
-    destinationDirectory = file('lib')
     from(classesDir) {
         include 'de/dfki/lt/freetts/de/germanlex_*.bin'
     }
@@ -360,14 +353,13 @@ tasks.register('germanLexJar', Jar) {
     }
 }
 
-// lib/cmu_us_kal-${version}.jar – Kevin (kal) diphone voice archive.
+// cmu_us_kal-${version}.jar – Kevin (kal) diphone voice archive.
 // Remaps voice.services -> META-INF/services/com.sun.speech.freetts.VoiceDirectory.
 tasks.register('cmuUsKalJar', Jar) {
     dependsOn 'kal8Db', 'kal16Db'
-    description = "Create lib/cmu_us_kal-${version}.jar"
+    description = "Create cmu_us_kal-${version}.jar"
     group       = 'build'
     archiveFileName = "cmu_us_kal-${version}.jar"
-    destinationDirectory = file('lib')
     from(classesDir) {
         include 'com/sun/speech/freetts/en/us/cmu_us_kal/**'
     }
@@ -383,14 +375,13 @@ tasks.register('cmuUsKalJar', Jar) {
     }
 }
 
-// lib/cmu_time_awb-${version}.jar – Alan (AWB) cluster-unit voice archive.
+// cmu_time_awb-${version}.jar – Alan (AWB) cluster-unit voice archive.
 // Remaps voice.services -> META-INF/services/com.sun.speech.freetts.VoiceDirectory.
 tasks.register('cmuTimeAwbJar', Jar) {
     dependsOn 'timeAwbDb'
-    description = "Create lib/cmu_time_awb-${version}.jar"
+    description = "Create cmu_time_awb-${version}.jar"
     group       = 'build'
     archiveFileName = "cmu_time_awb-${version}.jar"
-    destinationDirectory = file('lib')
     from(classesDir) {
         include 'com/sun/speech/freetts/en/us/cmu_time_awb/**'
     }
@@ -411,10 +402,9 @@ if (project.hasProperty('arctic_voice')) {
     def arcticVoice = project.property('arctic_voice')
     tasks.register('arcticVoiceJar', Jar) {
         dependsOn classes
-        description = "Create lib/${arcticVoice}-${version}.jar"
+        description = "Create ${arcticVoice}-${version}.jar"
         group       = 'build'
         archiveFileName = "${arcticVoice}-${version}.jar"
-        destinationDirectory = file('lib')
         from(classesDir) {
             include "com/sun/speech/freetts/en/us/${arcticVoice}/**"
         }
@@ -440,10 +430,9 @@ if (userVoice) {
     def userVoicePath = "${userVoiceBasePath}/${userVoice}"
     tasks.register('userVoiceJar', Jar) {
         dependsOn classes
-        description = "Create lib/${userVoice}-${version}.jar"
+        description = "Create ${userVoice}-${version}.jar"
         group       = 'build'
         archiveFileName = "${userVoice}-${version}.jar"
-        destinationDirectory = file('lib')
         from(classesDir) {
             include "${userVoicePath}/**"
         }
