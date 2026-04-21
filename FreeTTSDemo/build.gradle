@@ -46,15 +46,17 @@ if (!jsapiJar.exists()) {
 def freettsVersion = project(':FreeTTS').version
 def classesDir     = "${buildDir}/classes/java/main"
 def freeTTSJarTask = project(':FreeTTS').tasks.named('jar', Jar)
-def jsapiCp        = "../lib/freetts-${freettsVersion}.jar " +
-                     "../lib/freetts-jsapi10-${freettsVersion}.jar " +
-                     "../lib/jsapi.jar"
+def jsapiCp        = "freetts-${freettsVersion}.jar " +
+                     "freetts-jsapi10-${freettsVersion}.jar " +
+                     "jsapi.jar"
 
-tasks.register('prepareDemoLib', Sync) {
-    dependsOn project(':FreeTTS').tasks.named('assemble')
-    description = 'Copy FreeTTS runtime jars into FreeTTSDemo/lib for runnable demo jars'
+// Copy (not Sync) is used here so that demo JARs written to the same build/libs
+// directory by later Jar tasks are not deleted when this task re-runs incrementally.
+tasks.register('prepareDemoLib', Copy) {
+    dependsOn project(':FreeTTS').tasks.named('jars')
+    description = 'Copy FreeTTS runtime jars into FreeTTSDemo/build/libs for runnable demo jars'
     group       = 'build'
-    into layout.projectDirectory.dir('lib')
+    into layout.buildDirectory.dir('libs')
 
     from(project(':FreeTTS').layout.buildDirectory.dir('libs')) {
         include '*.jar'
@@ -75,30 +77,28 @@ tasks.withType(Jar).configureEach {
 // Non-JSAPI (freetts) demo JARs
 // ---------------------------------------------------------------------------
 
-// bin/Client.jar – client side of the FreeTTS client-server demo
+// build/libs/Client.jar – client side of the FreeTTS client-server demo
 tasks.register('clientJar', Jar) {
     dependsOn classes
-    description = 'Create bin/Client.jar (FreeTTS client-server client)'
+    description = 'Create Client.jar (FreeTTS client-server client)'
     group       = 'build'
     archiveFileName = 'Client.jar'
-    destinationDirectory = file('bin')
     from(classesDir) {
         include 'Client.class'
     }
     manifest {
         attributes 'Main-Class':           'Client',
-                   'Class-Path':           "../lib/freetts-${freettsVersion}.jar",
+                   'Class-Path':           "freetts-${freettsVersion}.jar",
                    'Implementation-Title': 'client side of the FreeTTS client-server demo'
     }
 }
 
-// bin/Server.jar – server side of the FreeTTS client-server demo
+// build/libs/Server.jar – server side of the FreeTTS client-server demo
 tasks.register('serverJar', Jar) {
     dependsOn classes
-    description = 'Create bin/Server.jar (FreeTTS client-server server)'
+    description = 'Create Server.jar (FreeTTS client-server server)'
     group       = 'build'
     archiveFileName = 'Server.jar'
-    destinationDirectory = file('bin')
     from(classesDir) {
         include 'Server.class'
         include 'SocketAudioPlayer.class'
@@ -107,18 +107,17 @@ tasks.register('serverJar', Jar) {
     }
     manifest {
         attributes 'Main-Class':           'Server',
-                   'Class-Path':           "../lib/freetts-${freettsVersion}.jar",
+                   'Class-Path':           "freetts-${freettsVersion}.jar",
                    'Implementation-Title': 'server side of the FreeTTS client-server demo'
     }
 }
 
-// bin/FreeTTSEmacspeakServer.jar – FreeTTS (non-JSAPI) Emacspeak server
+// build/libs/FreeTTSEmacspeakServer.jar – FreeTTS (non-JSAPI) Emacspeak server
 tasks.register('freeTTSEmacspeakServerJar', Jar) {
     dependsOn classes
-    description = 'Create bin/FreeTTSEmacspeakServer.jar (FreeTTS Emacspeak server)'
+    description = 'Create FreeTTSEmacspeakServer.jar (FreeTTS Emacspeak server)'
     group       = 'build'
     archiveFileName = 'FreeTTSEmacspeakServer.jar'
-    destinationDirectory = file('bin')
     from(classesDir) {
         include 'FreeTTSEmacspeakServer.class'
         include 'FreeTTSEmacspeakHandler.class'
@@ -131,13 +130,12 @@ tasks.register('freeTTSEmacspeakServerJar', Jar) {
     }
 }
 
-// bin/FreeTTSHelloWorld.jar – FreeTTS HelloWorld demo
+// build/libs/FreeTTSHelloWorld.jar – FreeTTS HelloWorld demo
 tasks.register('freeTTSHelloWorldJar', Jar) {
     dependsOn classes
-    description = 'Create bin/FreeTTSHelloWorld.jar (FreeTTS HelloWorld demo)'
+    description = 'Create FreeTTSHelloWorld.jar (FreeTTS HelloWorld demo)'
     group       = 'build'
     archiveFileName = 'FreeTTSHelloWorld.jar'
-    destinationDirectory = file('bin')
     from(classesDir) {
         include 'FreeTTSHelloWorld.class'
     }
@@ -151,13 +149,12 @@ tasks.register('freeTTSHelloWorldJar', Jar) {
 // ---------------------------------------------------------------------------
 if (jsapiJar.exists()) {
 
-    // bin/EmacspeakServer.jar – JSAPI Emacspeak server
+    // build/libs/EmacspeakServer.jar – JSAPI Emacspeak server
     tasks.register('jsapiEmacspeakServerJar', Jar) {
         dependsOn classes
-        description = 'Create bin/EmacspeakServer.jar (JSAPI Emacspeak server)'
+        description = 'Create EmacspeakServer.jar (JSAPI Emacspeak server)'
         group       = 'build'
         archiveFileName = 'EmacspeakServer.jar'
-        destinationDirectory = file('bin')
         from(classesDir) {
             include 'EmacspeakServer.class'
             include 'JSAPIEmacspeakHandler.class'
@@ -171,36 +168,34 @@ if (jsapiJar.exists()) {
         }
     }
 
-    // bin/HelloWorld.jar – JSAPI HelloWorld demo
+    // build/libs/HelloWorld.jar – JSAPI HelloWorld demo
     tasks.register('jsapiHelloWorldJar', Jar) {
         dependsOn classes
-        description = 'Create bin/HelloWorld.jar (JSAPI HelloWorld demo)'
+        description = 'Create HelloWorld.jar (JSAPI HelloWorld demo)'
         group       = 'build'
         archiveFileName = 'HelloWorld.jar'
-        destinationDirectory = file('bin')
         from(classesDir) {
             include 'HelloWorld.class'
         }
         manifest {
             attributes 'Main-Class': 'HelloWorld',
-                       'Class-Path': "../lib/freetts-${freettsVersion}.jar " +
-                                     "../lib/freetts-jsapi10-${freettsVersion}.jar " +
-                                     "../lib/cmudict04-${freettsVersion}.jar " +
-                                     "../lib/cmulex-${freettsVersion}.jar " +
-                                     "../lib/en_us-${freettsVersion}.jar " +
-                                     "../lib/cmu_us_kal-${freettsVersion}.jar " +
-                                     "../lib/jsapi.jar",
+                       'Class-Path': "freetts-${freettsVersion}.jar " +
+                                     "freetts-jsapi10-${freettsVersion}.jar " +
+                                     "cmudict04-${freettsVersion}.jar " +
+                                     "cmulex-${freettsVersion}.jar " +
+                                     "en_us-${freettsVersion}.jar " +
+                                     "cmu_us_kal-${freettsVersion}.jar " +
+                                     "jsapi.jar",
                        'Implementation-Title': 'FreeTTS JSAPI 1.0 hello world demo'
         }
     }
 
-    // bin/JTime.jar – JSAPI JTime demo
+    // build/libs/JTime.jar – JSAPI JTime demo
     tasks.register('jTimeJar', Jar) {
         dependsOn classes
-        description = 'Create bin/JTime.jar (JSAPI JTime demo)'
+        description = 'Create JTime.jar (JSAPI JTime demo)'
         group       = 'build'
         archiveFileName = 'JTime.jar'
-        destinationDirectory = file('bin')
         from(classesDir) {
             include 'JTime.class'
             include 'TimeUtils.class'
@@ -212,13 +207,12 @@ if (jsapiJar.exists()) {
         }
     }
 
-    // bin/MixedVoices.jar – JSAPI MixedVoices demo
+    // build/libs/MixedVoices.jar – JSAPI MixedVoices demo
     tasks.register('mixedVoicesJar', Jar) {
         dependsOn classes
-        description = 'Create bin/MixedVoices.jar (JSAPI MixedVoices demo)'
+        description = 'Create MixedVoices.jar (JSAPI MixedVoices demo)'
         group       = 'build'
         archiveFileName = 'MixedVoices.jar'
-        destinationDirectory = file('bin')
         from(classesDir) {
             include 'MixedVoices.class'
         }
@@ -229,13 +223,12 @@ if (jsapiJar.exists()) {
         }
     }
 
-    // bin/Player.jar – JSAPI Player demo
+    // build/libs/Player.jar – JSAPI Player demo
     tasks.register('playerJar', Jar) {
         dependsOn classes
-        description = 'Create bin/Player.jar (JSAPI Player demo)'
+        description = 'Create Player.jar (JSAPI Player demo)'
         group       = 'build'
         archiveFileName = 'Player.jar'
-        destinationDirectory = file('bin')
         from(classesDir) {
             include 'Player.class'
             include 'Playable.class'
@@ -252,13 +245,12 @@ if (jsapiJar.exists()) {
         }
     }
 
-    // bin/WebStartClock.jar – JSAPI WebStartClock demo
+    // build/libs/WebStartClock.jar – JSAPI WebStartClock demo
     tasks.register('webStartClockJar', Jar) {
         dependsOn classes
-        description = 'Create bin/WebStartClock.jar (JSAPI WebStartClock demo)'
+        description = 'Create WebStartClock.jar (JSAPI WebStartClock demo)'
         group       = 'build'
         archiveFileName = 'WebStartClock.jar'
-        destinationDirectory = file('bin')
         from(classesDir) {
             include 'JSAPIClock.class'
             include 'Clock.class'
