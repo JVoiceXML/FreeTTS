@@ -651,7 +651,12 @@ signing {
         useInMemoryPgpKeys(signingKey, signingPassword ?: '')
     }
     // Signing is only mandatory when publishing a non-SNAPSHOT release.
-    required { !version.endsWith('-SNAPSHOT') && gradle.taskGraph.hasTask('publishToOSSRH') }
+    required {
+        !version.endsWith('-SNAPSHOT') &&
+                gradle.taskGraph.allTasks.any { task ->
+                    task instanceof PublishToMavenRepository && task.repository?.name == 'OSSRH'
+                }
+    }
     sign publishing.publications
 }
 
