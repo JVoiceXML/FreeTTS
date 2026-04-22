@@ -1,12 +1,23 @@
 plugins {
     id 'java'
+    id 'maven-publish'
+    id 'signing'
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+    // Produces sourcesJar and javadocJar tasks; required artifacts for Maven Central.
+    withSourcesJar()
+    withJavadocJar()
 }
 
+// The source tree contains pre-existing doclint issues (non-standard HTML
+// headings, empty <p> tags, etc.).  Disable doclint so that the javadocJar
+// task required for Maven Central publishing can complete successfully.
+javadoc {
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
 // jsapi.jar lives in lib/ and must stay there; use a direct files() dependency
 // so it is picked up when present without requiring a Maven-style repository.
 def jsapiJar = file('lib/jsapi.jar')
@@ -457,4 +468,197 @@ tasks.register('jars') {
     if (userVoice) {
         dependsOn 'userVoiceJar'
     }
+}
+
+// ---------------------------------------------------------------------------
+// Maven Central / OSSRH Staging API publishing
+//
+// Target:  publishToOSSRH
+//
+// Credentials (set in ~/.gradle/gradle.properties or as environment variables):
+//   centralUsername  /  CENTRAL_USERNAME  – Central Portal username (or token user)
+//   centralToken     /  CENTRAL_TOKEN     – Central Portal user token (password)
+//
+// GPG signing (choose one of the two approaches below):
+//
+//   In-memory key (recommended for CI):
+//     signingKey          / SIGNING_KEY      – ASCII-armoured private key block
+//     signingPassword     / SIGNING_PASSWORD – key passphrase
+//
+//   Key-ring file (typical for local development):
+//     signing.keyId                          – last 8 hex chars of the key fingerprint
+//     signing.password                       – key passphrase
+//     signing.secretKeyRingFile              – absolute path to the secring.gpg file
+//
+// Signing is required for non-SNAPSHOT releases.  The publishToOSSRH task
+// publishes all component publications to the OSSRH Staging API in one step.
+//
+// Release URL  : https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/
+// Snapshot URL : https://central.sonatype.com/repository/maven-snapshots/
+// ---------------------------------------------------------------------------
+
+// Shared POM metadata closure – call inside every publication's pom {} block.
+def sharedPom = { pom, String pubName, String pubDesc ->
+    pom.name        = pubName
+    pom.description = pubDesc
+    pom.url         = 'https://github.com/JVoiceXML/FreeTTS'
+    pom.licenses {
+        license {
+            name = 'FreeTTS License (BSD-like)'
+            url  = 'https://github.com/JVoiceXML/FreeTTS/blob/main/FreeTTS/license.terms'
+        }
+    }
+    pom.developers {
+        developer {
+            id   = 'JVoiceXML'
+            name = 'JVoiceXML Community'
+            url  = 'https://github.com/JVoiceXML'
+        }
+    }
+    pom.scm {
+        connection          = 'scm:git:git://github.com/JVoiceXML/FreeTTS.git'
+        developerConnection = 'scm:git:ssh://github.com/JVoiceXML/FreeTTS.git'
+        url                 = 'https://github.com/JVoiceXML/FreeTTS'
+    }
+}
+
+publishing {
+    publications {
+
+        // --- Core FreeTTS library ---
+        // Uses `from components.java` so that the standard jar, sourcesJar and
+        // javadocJar (created by java.withSourcesJar / withJavadocJar above) are
+        // all included automatically.
+        freetts(MavenPublication) {
+            from components.java
+            artifactId = 'freetts'
+            pom { sharedPom(it, 'FreeTTS', 'FreeTTS is a speech synthesis system written entirely in the Java programming language.') }
+        }
+
+        // --- American-English voice support ---
+        // Note: sourcesJar / javadocJar are shared, project-wide artifacts.
+        // All FreeTTS component JARs originate from the same single source set, so a
+        // shared full-project sources/javadoc JAR is the standard approach for this
+        // kind of split-JAR release, and it satisfies Maven Central validation.
+        enUs(MavenPublication) {
+            artifactId = 'en_us'
+            artifact tasks.named('enUsJar')
+            artifact tasks.named('sourcesJar')
+            artifact tasks.named('javadocJar')
+            pom { sharedPom(it, 'FreeTTS en_us', 'American-English voice support classes for FreeTTS.') }
+        }
+
+        // --- CMU lexicon ---
+        cmulex(MavenPublication) {
+            artifactId = 'cmulex'
+            artifact tasks.named('cmulexJar')
+            artifact tasks.named('sourcesJar')
+            artifact tasks.named('javadocJar')
+            pom { sharedPom(it, 'FreeTTS cmulex', 'CMU lexicon binary data for FreeTTS.') }
+        }
+
+        // --- CMU pronunciation dictionary ---
+        cmudict04(MavenPublication) {
+            artifactId = 'cmudict04'
+            artifact tasks.named('cmudict04Jar')
+            artifact tasks.named('sourcesJar')
+            artifact tasks.named('javadocJar')
+            pom { sharedPom(it, 'FreeTTS cmudict04', 'CMU pronunciation dictionary binary data for FreeTTS.') }
+        }
+
+        // --- CMU time-domain lexicon ---
+        cmutimelex(MavenPublication) {
+            artifactId = 'cmutimelex'
+            artifact tasks.named('cmutimelexJar')
+            artifact tasks.named('sourcesJar')
+            artifact tasks.named('javadocJar')
+            pom { sharedPom(it, 'FreeTTS cmutimelex', 'CMU time-domain lexicon binary data for FreeTTS.') }
+        }
+
+        // --- MBROLA voice support ---
+        mbrola(MavenPublication) {
+            artifactId = 'mbrola'
+            artifact tasks.named('mbrolaJar')
+            artifact tasks.named('sourcesJar')
+            artifact tasks.named('javadocJar')
+            pom { sharedPom(it, 'FreeTTS mbrola', 'MBROLA voice support for FreeTTS.') }
+        }
+
+        // --- German lexicon ---
+        germanlex(MavenPublication) {
+            artifactId = 'germanlex'
+            artifact tasks.named('germanLexJar')
+            artifact tasks.named('sourcesJar')
+            artifact tasks.named('javadocJar')
+            pom { sharedPom(it, 'FreeTTS germanlex', 'German lexicon binary data for FreeTTS.') }
+        }
+
+        // --- Kevin (cmu_us_kal) diphone voice ---
+        cmuUsKal(MavenPublication) {
+            artifactId = 'cmu_us_kal'
+            artifact tasks.named('cmuUsKalJar')
+            artifact tasks.named('sourcesJar')
+            artifact tasks.named('javadocJar')
+            pom { sharedPom(it, 'FreeTTS cmu_us_kal', 'Kevin diphone voice archive for FreeTTS.') }
+        }
+
+        // --- Alan (cmu_time_awb) cluster-unit voice ---
+        cmuTimeAwb(MavenPublication) {
+            artifactId = 'cmu_time_awb'
+            artifact tasks.named('cmuTimeAwbJar')
+            artifact tasks.named('sourcesJar')
+            artifact tasks.named('javadocJar')
+            pom { sharedPom(it, 'FreeTTS cmu_time_awb', 'Alan cluster-unit voice archive for FreeTTS.') }
+        }
+
+        // --- JSAPI 1.0 layer (only when jsapi.jar is present) ---
+        if (jsapiJar.exists()) {
+            freettsJsapi10(MavenPublication) {
+                artifactId = 'freetts-jsapi10'
+                artifact tasks.named('freettsJsapi10Jar')
+                artifact tasks.named('sourcesJar')
+                artifact tasks.named('javadocJar')
+                pom { sharedPom(it, 'FreeTTS JSAPI 1.0', 'JSAPI 1.0 layer for FreeTTS.') }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'OSSRH'
+            // Non-SNAPSHOT releases go to the OSSRH Staging API; snapshots go to the
+            // Central snapshot repository so they can be consumed immediately.
+            url = version.endsWith('-SNAPSHOT')
+                    ? uri('https://central.sonatype.com/repository/maven-snapshots/')
+                    : uri('https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/')
+            credentials {
+                username = findProperty('centralUsername') ?: System.getenv('CENTRAL_USERNAME')
+                password = findProperty('centralToken')    ?: System.getenv('CENTRAL_TOKEN')
+            }
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Signing – required for all non-SNAPSHOT releases published to Maven Central.
+// ---------------------------------------------------------------------------
+signing {
+    // Prefer in-memory PGP keys (suitable for CI pipelines).
+    def signingKey      = findProperty('signingKey')      ?: System.getenv('SIGNING_KEY')
+    def signingPassword = findProperty('signingPassword') ?: System.getenv('SIGNING_PASSWORD')
+    if (signingKey) {
+        useInMemoryPgpKeys(signingKey, signingPassword ?: '')
+    }
+    // Signing is only mandatory when publishing a non-SNAPSHOT release.
+    required { !version.endsWith('-SNAPSHOT') && gradle.taskGraph.hasTask('publishToOSSRH') }
+    sign publishing.publications
+}
+
+// ---------------------------------------------------------------------------
+// Convenience aggregate task – deploys every component to the OSSRH repository.
+// ---------------------------------------------------------------------------
+tasks.register('publishToOSSRH') {
+    description = 'Deploys all FreeTTS component artifacts to the OSSRH Staging API repository.'
+    group       = 'publishing'
+    dependsOn tasks.withType(PublishToMavenRepository).matching { it.repository?.name == 'OSSRH' }
 }
