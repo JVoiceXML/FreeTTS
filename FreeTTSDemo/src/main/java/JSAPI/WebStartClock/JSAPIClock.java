@@ -6,14 +6,16 @@
  * WARRANTIES.
  */
 
-import com.sun.speech.freetts.jsapi.FreeTTSEngineCentral; 
+package JSAPI.WebStartClock;
 
 import java.util.Locale;
 
-import javax.speech.EngineList; 
-import javax.speech.EngineCreate; 
+import javax.speech.EngineCreate;
+import javax.speech.EngineList;
 import javax.speech.synthesis.Synthesizer;
 import javax.speech.synthesis.SynthesizerModeDesc;
+
+import com.sun.speech.freetts.jsapi.FreeTTSEngineCentral;
 
 /**
  * A talking clock powered by FreeTTS.

@@ -1,3 +1,5 @@
+package JSAPI.Player;
+
 /**
  * Copyright 2001 Sun Microsystems, Inc.
  * 
@@ -10,17 +12,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
-import java.util.Locale;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Iterator;
+import java.util.Set;
 
 import javax.speech.AudioException;
 import javax.speech.Central;
@@ -31,13 +31,9 @@ import javax.speech.synthesis.Synthesizer;
 import javax.speech.synthesis.SynthesizerModeDesc;
 import javax.speech.synthesis.SynthesizerProperties;
 import javax.speech.synthesis.Voice;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
 import javax.swing.ListModel;
-
-import com.sun.speech.engine.synthesis.SynthesizerMonitor;
 
 /**
  * Implements the text-to-speech data model of the Player application, using

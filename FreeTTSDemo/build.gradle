@@ -10,6 +10,11 @@ java {
 // jsapi.jar lives in the FreeTTS subproject's lib/ directory.
 def jsapiJar = file('../FreeTTS/lib/jsapi.jar')
 
+// Read version from FreeTTS/gradle.properties
+Properties freettsProps = new Properties()
+file("../FreeTTS/gradle.properties").withInputStream { freettsProps.load(it) }
+def freettsVersion = freettsProps['version']
+
 repositories {
     mavenCentral()
 }
@@ -18,6 +23,11 @@ dependencies {
     implementation project(':FreeTTS')
     if (jsapiJar.exists()) {
         compileOnly files(jsapiJar)
+        // Add freetts-jsapi10 jar to compile classpath if present
+        def jsapi10Jar = file("../FreeTTS/build/libs/freetts-jsapi10-${freettsVersion}.jar")
+        if (jsapi10Jar.exists()) {
+            compileOnly files(jsapi10Jar)
+        }
     }
 }
 
@@ -43,7 +53,6 @@ if (!jsapiJar.exists()) {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-def freettsVersion = project(':FreeTTS').version
 def classesDir     = "${buildDir}/classes/java/main"
 def freeTTSJarTask = project(':FreeTTS').tasks.named('jar', Jar)
 def jsapiCp        = "freetts-${freettsVersion}.jar " +
@@ -265,9 +274,9 @@ if (jsapiJar.exists()) {
 }
 
 // ---------------------------------------------------------------------------
-// 'demoJars' aggregate task – builds all demo JARs (mirrors Ant's 'all' target)
+// 'jars' aggregate task – builds all demo JARs (mirrors Ant's 'all' target)
 // ---------------------------------------------------------------------------
-tasks.register('demoJars') {
+tasks.register('jars') {
     description = 'Builds all demo JAR files'
     group       = 'build'
     dependsOn 'clientJar', 'serverJar', 'freeTTSEmacspeakServerJar', 'freeTTSHelloWorldJar'

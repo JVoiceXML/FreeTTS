@@ -1,3 +1,6 @@
+package JSAPI.Player;
+
+import java.awt.BorderLayout;
 /**
  * Copyright 2001 Sun Microsystems, Inc.
  * 
@@ -6,49 +9,28 @@
  * WARRANTIES.
  */
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Cursor;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JToggleButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
-import javax.swing.border.Border;
+import javax.swing.JTextArea;
+import javax.swing.JToggleButton;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-
-import javax.swing.plaf.basic.BasicArrowButton;
-import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.event.ChangeListener;
 
 /**
  * Defines and contains all the user-interface Swing objects of the Player.

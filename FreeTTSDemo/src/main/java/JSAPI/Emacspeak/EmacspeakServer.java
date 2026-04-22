@@ -1,3 +1,5 @@
+package JSAPI.Emacspeak;
+
 /**
  * Copyright 2003 Sun Microsystems, Inc.
  * 
@@ -6,19 +8,15 @@
  * WARRANTIES.
  */
 import java.io.File;
-import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
-
 import java.util.Locale;
 
 import javax.speech.Central;
-import javax.speech.Engine;
-import javax.speech.EngineException;
 import javax.speech.synthesis.Synthesizer;
 import javax.speech.synthesis.SynthesizerModeDesc;
-import javax.speech.synthesis.SynthesizerProperties;
 import javax.speech.synthesis.Voice;
+
+import util.TTSServer;
 
 
 /**

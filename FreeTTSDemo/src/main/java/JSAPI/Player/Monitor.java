@@ -1,3 +1,5 @@
+package JSAPI.Player;
+
 /**
  * Copyright 2001 Sun Microsystems, Inc.
  * 
@@ -6,28 +8,17 @@
  * WARRANTIES.
  */
 import java.awt.Component;
-import java.awt.Container;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import javax.speech.synthesis.Synthesizer;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
 import javax.swing.border.TitledBorder;
 
-import com.sun.speech.engine.synthesis.SynthesizerMonitor;
 import com.sun.speech.engine.EngineEventPanel;
+import com.sun.speech.engine.synthesis.SynthesizerMonitor;
 
 /**
  * Implements the GUI for a SynthesizerMonitor.

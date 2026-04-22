@@ -1,3 +1,13 @@
+package util;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.SocketTimeoutException;
+
 /**
  * Copyright 2001 Sun Microsystems, Inc.
  * 
@@ -6,15 +16,6 @@
  * WARRANTIES.
  */
 import com.sun.speech.freetts.util.Utilities;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-
-import java.net.Socket;
-import java.net.SocketTimeoutException;
 
 
 /**

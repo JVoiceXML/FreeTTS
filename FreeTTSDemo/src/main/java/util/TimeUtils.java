@@ -5,6 +5,8 @@
  * redistribution of this file, and for a DISCLAIMER OF ALL 
  * WARRANTIES.
  */
+package util;
+
 import java.util.regex.Pattern;
 
 public class TimeUtils {

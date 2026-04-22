@@ -1,3 +1,5 @@
+package JSAPI.Emacspeak;
+
 /**
  * Copyright 2001 Sun Microsystems, Inc.
  * 
@@ -9,7 +11,10 @@
 import java.net.Socket;
 
 import javax.speech.synthesis.Synthesizer;
+
 import com.sun.speech.freetts.util.Utilities;
+
+import util.EmacspeakProtocolHandler;
 
 
 /**

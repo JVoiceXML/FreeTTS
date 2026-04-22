@@ -6,3 +6,6 @@
 # Gradle build outputs
 /build/
 /.gradle/
+/lib/
+/mbrola/
+/.settings/

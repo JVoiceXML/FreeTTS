@@ -1,3 +1,5 @@
+package JSAPI.Player;
+
 /**
  * Copyright 2001 Sun Microsystems, Inc.
  * 

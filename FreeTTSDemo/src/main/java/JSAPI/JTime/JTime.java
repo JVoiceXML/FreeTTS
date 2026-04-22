@@ -1,3 +1,5 @@
+package JSAPI.JTime;
+
 /**
  * Copyright 2003 Sun Microsystems, Inc.
  * 
@@ -7,23 +9,20 @@
  */
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.io.IOException;
-
+import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import java.util.regex.Pattern;
-
 import javax.speech.Central;
-import javax.speech.Engine;
-import javax.speech.EngineList;
 import javax.speech.EngineException;
+import javax.speech.EngineList;
 import javax.speech.synthesis.Synthesizer;
 import javax.speech.synthesis.SynthesizerModeDesc;
-import javax.speech.synthesis.SynthesizerProperties;
 import javax.speech.synthesis.Voice;
+
+import util.TimeUtils;
 
 /**
  * Simple program showing how to use the Limited Domain (time)

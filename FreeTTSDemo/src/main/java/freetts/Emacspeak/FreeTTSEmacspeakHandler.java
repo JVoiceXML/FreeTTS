@@ -1,3 +1,8 @@
+package freetts.Emacspeak;
+
+import java.net.Socket;
+import java.util.Vector;
+
 /**
  * Copyright 2001 Sun Microsystems, Inc.
  * 
@@ -7,10 +12,9 @@
  */
 
 import com.sun.speech.freetts.Voice;
-
 import com.sun.speech.freetts.util.Utilities;
-import java.net.Socket;
-import java.util.Vector;
+
+import util.EmacspeakProtocolHandler;
 
 
 /**

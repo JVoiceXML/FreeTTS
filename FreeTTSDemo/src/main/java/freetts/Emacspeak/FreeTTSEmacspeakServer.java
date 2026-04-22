@@ -1,19 +1,11 @@
-/**
- * Copyright 2003 Sun Microsystems, Inc.
- * 
- * See the file "license.terms" for information on usage and
- * redistribution of this file, and for a DISCLAIMER OF ALL 
- * WARRANTIES.
- */
-
-import com.sun.speech.freetts.ValidationException;
-import com.sun.speech.freetts.Validator;
-import com.sun.speech.freetts.Voice;
-import com.sun.speech.freetts.VoiceManager;
-import com.sun.speech.freetts.audio.JavaClipAudioPlayer;
-import com.sun.speech.freetts.audio.JavaStreamingAudioPlayer;
+package freetts.Emacspeak;
 
 import java.net.Socket;
+
+import com.sun.speech.freetts.Voice;
+import com.sun.speech.freetts.VoiceManager;
+
+import util.TTSServer;
 
 /**
  * Provides text-to-speech server for Emacspeak.

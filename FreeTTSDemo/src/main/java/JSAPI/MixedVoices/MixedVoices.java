@@ -1,3 +1,7 @@
+package JSAPI.MixedVoices;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 /**
  * Copyright 2003 Sun Microsystems, Inc.
  * 
@@ -7,19 +11,13 @@
  */
 import java.io.File;
 import java.util.Locale;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.speech.Central;
-import javax.speech.Engine;
-import javax.speech.EngineException;
-import javax.speech.synthesis.Synthesizer;
-import javax.speech.synthesis.SynthesizerModeDesc;
-import javax.speech.synthesis.SynthesizerProperties;
-import javax.speech.synthesis.Voice;
-import javax.speech.synthesis.Speakable;
 import javax.speech.synthesis.SpeakableAdapter;
 import javax.speech.synthesis.SpeakableEvent;
+import javax.speech.synthesis.Synthesizer;
+import javax.speech.synthesis.SynthesizerModeDesc;
+import javax.speech.synthesis.Voice;
 
 /**
  * Sample program that demonstrates how multiple voices

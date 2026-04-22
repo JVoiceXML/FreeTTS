@@ -1,3 +1,6 @@
+package JSAPI.Player;
+
+import javax.speech.synthesis.SynthesizerModeDesc;
 /**
  * Copyright 2001 Sun Microsystems, Inc.
  * 
@@ -6,7 +9,6 @@
  * WARRANTIES.
  */
 import javax.swing.ListModel;
-import javax.speech.synthesis.SynthesizerModeDesc;
 
 /**
  * Defines the data model used by the GUI of the <code>Player</code>.

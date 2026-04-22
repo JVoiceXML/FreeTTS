@@ -1,3 +1,11 @@
+package freetts.ClientServer;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
+import javax.sound.sampled.AudioFormat;
+
 /**
  * Copyright 2001 Sun Microsystems, Inc.
  * 
@@ -8,13 +16,6 @@
 
 import com.sun.speech.freetts.audio.AudioPlayer;
 import com.sun.speech.freetts.util.Utilities;
-
-import java.io.DataOutputStream;
-import java.io.IOException;
-
-import java.net.Socket;
-
-import javax.sound.sampled.AudioFormat;
 
 
 /**
