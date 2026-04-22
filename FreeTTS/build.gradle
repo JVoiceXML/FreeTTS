@@ -500,9 +500,9 @@ tasks.register('jars') {
 
 // Shared POM metadata closure – call inside every publication's pom {} block.
 def sharedPom = { pom, String pubName, String pubDesc ->
-    pom.name        = pubName
-    pom.description = pubDesc
-    pom.url         = 'https://github.com/JVoiceXML/FreeTTS'
+    pom.name.set(pubName)
+    pom.description.set(pubDesc)
+    pom.url.set('https://github.com/JVoiceXML/FreeTTS')
     pom.licenses {
         license {
             name = 'FreeTTS License (BSD-like)'
