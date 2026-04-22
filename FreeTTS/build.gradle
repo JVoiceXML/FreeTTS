@@ -16,7 +16,8 @@ java {
 // headings, empty <p> tags, etc.).  Disable doclint so that the javadocJar
 // task required for Maven Central publishing can complete successfully.
 javadoc {
-    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addBooleanOption('Xdoclint:none', true)
+    options.addBooleanOption('quiet', true)
 }
 // jsapi.jar lives in lib/ and must stay there; use a direct files() dependency
 // so it is picked up when present without requiring a Maven-style repository.
