@@ -367,6 +367,8 @@ public class FreeTTSTime extends FreeTTS {
 
     /**
      * The main entry point for FreeTTSTime.
+     *
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
 

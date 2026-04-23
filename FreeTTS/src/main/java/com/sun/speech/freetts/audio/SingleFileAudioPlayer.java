@@ -60,7 +60,7 @@ public class SingleFileAudioPlayer implements AudioPlayer {
      * Creates a default audio player for an AudioFileFormat of type
      * WAVE.  Reads the "com.sun.speech.freetts.AudioPlayer.baseName"
      * property for the base filename to use, and will produce a file
-     * of the form &lt;baseName>.wav.  The default value for the
+     * of the form &lt;baseName&gt;.wav.  The default value for the
      * base name is "freetts".
      */
     public SingleFileAudioPlayer() {

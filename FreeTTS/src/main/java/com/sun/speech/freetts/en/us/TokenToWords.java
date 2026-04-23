@@ -265,6 +265,8 @@ public class TokenToWords implements UtteranceProcessor {
      * regular expression set (USEngRegExp) by default.
      *
      * @param usNumbersCART the cart to use to classify numbers
+     * @param prefixFSM the FSM for prefix detection
+     * @param suffixFSM the FSM for suffix detection
      */
     public TokenToWords(CART usNumbersCART,
 			PronounceableFSM prefixFSM,

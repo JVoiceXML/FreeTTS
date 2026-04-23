@@ -53,6 +53,7 @@ public class PronounceableFSM {
      * @param url the URL that contains the FSM specification
      * @param scanFromFront indicates whether this FSM should scan the input
      * string from the front, or from the back
+     * @throws IOException if an error occurs while reading the FSM data
      */
     public PronounceableFSM(URL url, boolean scanFromFront) throws IOException {
 	this.scanFromFront = scanFromFront;

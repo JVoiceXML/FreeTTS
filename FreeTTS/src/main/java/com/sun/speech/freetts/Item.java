@@ -143,6 +143,7 @@ public class Item implements Dumpable {
      * Adds the given item as a daughter to this item.
      *
      * @param item the new daughter
+     * @return the newly added daughter Item
      */
     public Item addDaughter(Item item) {
 	Item newItem;
@@ -260,6 +261,7 @@ public class Item implements Dumpable {
      * than a String "0" is returned.
      *
      * @param pathAndFeature the path to follow
+     * @return the feature value, or "0" if not found
      */
     public Object findFeature(String pathAndFeature) {
 	int lastDot;

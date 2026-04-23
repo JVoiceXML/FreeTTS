@@ -55,6 +55,14 @@ public class ClusterUnitVoice extends Voice implements ConcatenativeVoice {
 	 /**
      * Creates a ClusterUnitVoice
      * 
+     * @param name the name of the voice
+     * @param gender the gender of the voice
+     * @param age the age of the voice
+     * @param description a description of the voice
+     * @param locale the locale of the voice
+     * @param domain the domain of the voice
+     * @param organization the organization that created the voice
+     * @param lexicon the lexicon to use
      * @param database the database of the voice
      * @param unitNamer specifies the name of the Units (if null, an 
      * ldom naming scheme will be used: 'ae_afternoon')

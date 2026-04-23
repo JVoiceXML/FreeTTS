@@ -456,7 +456,7 @@ public class LetterToSoundImpl implements LetterToSound {
     
     /**
      * Gets the <code>State</code> based upon the <code>type</code>
-     * and <code>tokenizer<code>.
+     * and <code>tokenizer</code>.
      *
      * @param type one of <code>STATE</code> or <code>PHONE</code>
      * @param tokenizer a <code>StringTokenizer</code> containing the
@@ -857,6 +857,8 @@ public class LetterToSoundImpl implements LetterToSound {
 
     /**
      * Translates between text and binary forms of the CMU6 LTS rules.
+     *
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
 	LexiconImpl lex, lex2;

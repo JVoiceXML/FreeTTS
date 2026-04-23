@@ -16,6 +16,8 @@ public class FreeTTSEmacspeakServer extends TTSServer {
     
     /**
      * Constructs a EmacspeakServer.
+     *
+     * @param voiceName the name of the FreeTTS voice to use
      */
     public FreeTTSEmacspeakServer(String voiceName) {
 	System.setProperty
@@ -69,6 +71,8 @@ public class FreeTTSEmacspeakServer extends TTSServer {
      * Starts this TTS Server.
      *
      * Usage: FreeTTSEmacspeakServer [voicename [speaking rate]]
+     *
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
         String voiceName = (args.length > 0)

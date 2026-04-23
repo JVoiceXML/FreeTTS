@@ -237,6 +237,7 @@ public class PlayerPanel extends JPanel {
      * @param toolTipText the tooltip text
      * @param prototypeDisplayValue the String used to calculate the
      *    width of the ComboBox
+     * @return the configured JComboBox
      */
     public JComboBox createComboBox(ComboBoxModel model, String toolTipText,
 				    String prototypeDisplayValue) {

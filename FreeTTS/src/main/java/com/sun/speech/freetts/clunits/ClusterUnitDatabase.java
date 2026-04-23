@@ -779,13 +779,11 @@ public class ClusterUnitDatabase {
      *  Manipulates a ClusterUnitDatabase.  
      *
      * <p>
-     * <b> Usage </b>
-     * <p>
+     * <b> Usage </b><br>
      *  <code> java com.sun.speech.freetts.clunits.ClusterUnitDatabase
      *  [options]</code> 
-     * <p>
+     * </p>
      * <b> Options </b>
-     * <p>
      *    <ul>
      *          <li> <code> -src path </code> provides a directory
      *          path to the source text for the database
@@ -800,7 +798,7 @@ public class ClusterUnitDatabase {
      *		<li> <code> -showTimes </code> shows timings for any
      *		loading, comparing or dumping operation
      *    </ul>
-     * 
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
 	boolean showTimes = false;

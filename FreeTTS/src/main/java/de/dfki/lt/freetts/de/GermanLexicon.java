@@ -98,7 +98,7 @@ public class GermanLexicon extends LexiconImpl {
      * Get the GermanLexicon.
      *
      * @param useBinaryIO if true use binary IO to load DB
-     *
+     * @return a GermanLexicon instance
      * @throws IOException if problems occurred while reading the data
      */ 
     static public GermanLexicon getInstance( boolean useBinaryIO) 
@@ -109,8 +109,9 @@ public class GermanLexicon extends LexiconImpl {
     /**
      * Get the GermanLexicon.
      *
+     * @param basename the base name of the lexicon
      * @param useBinaryIO if true use binary IO to load DB
-     *
+     * @return a GermanLexicon instance
      * @throws IOException if problems occurred while reading the data
      */ 
     static public GermanLexicon getInstance( String basename, boolean useBinaryIO) 
@@ -152,6 +153,8 @@ public class GermanLexicon extends LexiconImpl {
      * -showtimes
      *
      * </pre>
+     *
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
 	LexiconImpl lex, lex2;

@@ -28,8 +28,8 @@ public class FreeTTSEmacspeakHandler extends EmacspeakProtocolHandler {
     /**
      * Constructs a Emacspeak ProtocolHandler
      *
-     * @param freetts the FreeTTS that this FreeTTSEmacspeakHandler belongs
      * @param socket the Socket that holds the TCP connection
+     * @param voice the Voice that this FreeTTSEmacspeakHandler belongs
      */
     public FreeTTSEmacspeakHandler(Socket socket, Voice voice) {
 	setSocket(socket);

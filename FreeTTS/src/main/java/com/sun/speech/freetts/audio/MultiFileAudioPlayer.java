@@ -35,7 +35,7 @@ public class MultiFileAudioPlayer implements AudioPlayer {
      * Creates a default audio player for an AudioFileFormat of type
      * WAVE.  Reads the "com.sun.speech.freetts.AudioPlayer.baseName"
      * property for the base filename to use, and will produce files
-     * of the form &lt;baseName>1.wav.  The default value for the
+     * of the form &lt;baseName&gt;1.wav.  The default value for the
      * base name is "freetts".
      */
     public MultiFileAudioPlayer() {

@@ -34,6 +34,8 @@ public class FreeTTSEngineCentral implements EngineCentral {
 
     /**
      * Creates a FreeTTSEngineCentral
+     *
+     * @throws Exception if an error occurs during initialization
      */
     public FreeTTSEngineCentral() throws Exception {
 	// Note that the JSAPI layer currently is silent
@@ -45,7 +47,7 @@ public class FreeTTSEngineCentral implements EngineCentral {
      * synthesizers.  The mapping of FreeTTS VoiceDirectories and
      * Voices to JSAPI Synthesizers and Voices is as follows:
      *
-     * <p><ul>
+     * <ul>
      * <li>Each FreeTTS VoiceDirectory specifies the list of FreeTTS
      * Voices supported by that directory.  Each Voice in that
      * directory specifies its name (e.g., "kevin" "kevin16" "alan"),
@@ -59,8 +61,8 @@ public class FreeTTSEngineCentral implements EngineCentral {
      * domain, this method generates a new JSAPI SynthesizerModeDesc
      * with the following attributes:
      *   <ul>
-     *   <li>The engine name is of the form: "FreeTTS &lt;locale>
-     *   &lt;domain> synthesizer"  For example, "FreeTTS en_us general
+     *   <li>The engine name is of the form: "FreeTTS &lt;locale&gt;
+     *   &lt;domain&gt; synthesizer"  For example, "FreeTTS en_us general
      *   synthesizer"
      *   <li>The locale is the locale shared by all the voices (e.g.,
      *   Locale.US)

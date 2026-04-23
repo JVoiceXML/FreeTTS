@@ -64,6 +64,7 @@ public interface Lexicon {
      *
      * @param word the word to add
      * @param partOfSpeech the part of speech or <code>null</code>
+     * @param phones the phones for the word
      * 
      */
     public void addAddendum(String word, String partOfSpeech, String[] phones);

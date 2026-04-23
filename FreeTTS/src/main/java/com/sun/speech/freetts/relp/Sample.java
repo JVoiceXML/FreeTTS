@@ -45,6 +45,7 @@ public class Sample {
      *
      * @param frameData the framedata
      * @param residualData the residual data
+     * @param residualSize the size of the residual data
      */
     public Sample(short[] frameData, byte[] residualData, int residualSize) {
 	this.frameData = frameData;
@@ -211,6 +212,7 @@ public class Sample {
      *
      * @param bb the byte buffer to read the data from.
      *
+     * @return the loaded Sample
      * @throws IOException if IO error occurs
      */
     public static Sample loadBinary(ByteBuffer bb) throws IOException {
@@ -237,6 +239,7 @@ public class Sample {
      *
      * @param dis the DataInputStream to read the data from.
      *
+     * @return the loaded Sample
      * @throws IOException if IO error occurs
      */
     public static Sample loadBinary(DataInputStream dis) 

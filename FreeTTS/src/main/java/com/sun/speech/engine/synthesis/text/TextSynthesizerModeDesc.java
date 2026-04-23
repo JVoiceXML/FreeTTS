@@ -53,9 +53,9 @@ public class TextSynthesizerModeDesc extends SynthesizerModeDesc
      * Constructs a text synthesizer with the properties of this mode
      * desc.
      * 
-     * @throws IllegalArgumentException
-     * @throws EngineException
-     * @throws SecurityException
+     * @throws IllegalArgumentException if the mode descriptor is invalid
+     * @throws EngineException if the engine could not be created
+     * @throws SecurityException if creation is not permitted
      */
     public Engine createEngine()
         throws IllegalArgumentException, EngineException, SecurityException {

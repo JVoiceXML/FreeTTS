@@ -208,7 +208,7 @@ public class SocketAudioPlayer implements AudioPlayer {
      * Gets the amount of audio played since the last resetTime.
      * Not implemented in this Player.
      *
-     * @returns the amount of audio in milliseconds
+     * @return the amount of audio in milliseconds
      */
     public long getTime() {
 	return -1;

@@ -229,7 +229,7 @@ public class FreeTTSSynthesizer extends BaseSynthesizer {
     /**
      * Cancels all items on the output queue.
      *
-     * @throws EngineStateError
+     * @throws EngineStateError if called for a deallocated or deallocating engine
      */
     public void cancelAll() throws EngineStateError {
         checkEngineState(DEALLOCATED | DEALLOCATING_RESOURCES);

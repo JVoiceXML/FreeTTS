@@ -123,7 +123,7 @@ public class Player extends JFrame {
     /**
      * Changes the font size of all components in this Player.
      * 
-     * @param change the change in font size
+     * @param fontSize the new font size for all components
      */
     public void setGlobalFontSize(int fontSize) {
 	if (globalFont == null) {
@@ -149,9 +149,9 @@ public class Player extends JFrame {
 
 
     /**
-     * A convenience method for setting the Look & Feel.
+     * A convenience method for setting the Look &amp; Feel.
      *
-     * @param lookAndFeel the Look & Feel specification
+     * @param lookAndFeel the Look &amp; Feel specification
      */
     public void setLookAndFeel(Object lookAndFeel) {
 	try {
@@ -171,6 +171,8 @@ public class Player extends JFrame {
     /**
      * Sets the voice for the Player.  The main purpose of this
      * method is to set the Player to a nice voice on startup.
+     *
+     * @param voiceName the name of the voice to use
      */
     public void setVoice(String voiceName) {
         PlayerModel model = getModel();
@@ -192,6 +194,9 @@ public class Player extends JFrame {
 
     /**
      * The main() method of the Player.
+     *
+     * @param args command-line arguments
+     * @throws Exception if the Player cannot be initialised
      */
     public static void main(String[] args) throws Exception {
 	boolean showMonitor = false;

@@ -103,6 +103,7 @@ public class LPCResult {
      *
      * @param numberOfChannels  the number of channels
      * @param sampleRate  the sample rate
+     * @param residualFold the residual fold factor
      * @param lpcMin  the LPC minimum
      * @param lpcRange  the LPC range
      */
@@ -399,6 +400,8 @@ public class LPCResult {
     /**
      * Synthesize a Wave  from this LPCResult
      *
+     * @param player the AudioPlayer to play the wave through
+     * @param utterance the Utterance associated with this wave
      * @return the wave
      * @exception IOException
      *            if an error occurs while writing the audio data

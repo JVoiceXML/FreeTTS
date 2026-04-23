@@ -31,8 +31,10 @@ public class RawFileAudioPlayer implements AudioPlayer {
      * Creates a default audio player for an AudioFileFormat of type
      * WAVE.  Reads the "com.sun.speech.freetts.AudioPlayer.baseName"
      * property for the base filename to use, and will produce files
-     * of the form &lt;baseName>.raw.  The default value for the
+     * of the form &lt;baseName&gt;.raw.  The default value for the
      * base name is "freetts".
+     *
+     * @throws IOException if an error occurs creating the audio player
      */
     public RawFileAudioPlayer() throws IOException {
         this(Utilities.getProperty(
@@ -42,6 +44,9 @@ public class RawFileAudioPlayer implements AudioPlayer {
     
     /**
      * Constructs a NullAudioPlayer
+     *
+     * @param path the path to the output file
+     * @throws IOException if an error occurs creating the audio player
      */
     public RawFileAudioPlayer(String path) throws IOException {
         this.path = path;

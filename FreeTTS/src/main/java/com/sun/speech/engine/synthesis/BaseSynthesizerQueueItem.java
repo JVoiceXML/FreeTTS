@@ -542,7 +542,7 @@ public class BaseSynthesizerQueueItem extends SynthesizerQueueItem
      *
      * @param text the synthesized text
      * @param wordStart start position of the word within text
-     * @param wordStart end position of the word within text
+     * @param wordEnd end position of the word within text
      * @see #fireWordStarted
      * @see #dispatchSpeechEvent
      */

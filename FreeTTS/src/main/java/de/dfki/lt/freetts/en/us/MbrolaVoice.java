@@ -95,6 +95,8 @@ public class MbrolaVoice extends CMUVoice {
      *
      * <pre> {mbrolaExecutable} -e -R {mbrolaRenameList} {mbrolaVoiceDB} 
      * - -.raw </pre>
+     *
+     * @return the MBROLA command array
      */
     protected String[] getMbrolaCommand() {
 

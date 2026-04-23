@@ -12,13 +12,6 @@ java {
     withJavadocJar()
 }
 
-// The source tree contains pre-existing doclint issues (non-standard HTML
-// headings, empty <p> tags, etc.).  Disable doclint so that the javadocJar
-// task required for Maven Central publishing can complete successfully.
-javadoc {
-    options.addBooleanOption('Xdoclint:none', true)
-    options.addBooleanOption('quiet', true)
-}
 // jsapi.jar lives in lib/ and must stay there; use a direct files() dependency
 // so it is picked up when present without requiring a Maven-style repository.
 def jsapiJar = file('lib/jsapi.jar')

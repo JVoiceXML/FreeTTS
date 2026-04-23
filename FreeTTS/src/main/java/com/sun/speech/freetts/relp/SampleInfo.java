@@ -40,6 +40,7 @@ public class SampleInfo {
      * @param residualFold the residual fold
      * @param coeffMin the minimum coefficient
      * @param coeffRange the range of coefficients
+     * @param postEmphasis the post emphasis factor
      */
     public SampleInfo(int sampleRate, int numberOfChannels,
 	    int residualFold, float coeffMin, 

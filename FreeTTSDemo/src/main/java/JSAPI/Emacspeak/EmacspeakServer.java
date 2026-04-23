@@ -32,6 +32,8 @@ public class EmacspeakServer extends TTSServer {
 
     /**
      * Constructs a EmacspeakServer.
+     *
+     * @param voiceName the name of the JSAPI voice to use
      */
     public EmacspeakServer(String voiceName) {
 	loadSynthesizer(voiceName);
@@ -126,6 +128,8 @@ public class EmacspeakServer extends TTSServer {
         
     /**
      * Starts this TTS Server.
+     *
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
         String voiceName = (args.length > 0)

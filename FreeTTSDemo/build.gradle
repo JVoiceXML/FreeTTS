@@ -7,6 +7,15 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+// Restrict javadoc source path to only the demo's own sources.
+// Without this, Gradle adds FreeTTS source directories to the javadoc
+// source path, causing "Multiple sources of package comments" warnings
+// for com.sun.speech.engine and com.sun.speech.engine.synthesis because
+// both the .java files and the package.html resources are found.
+javadoc {
+    options.addStringOption('sourcepath', sourceSets.main.java.srcDirs.join(File.pathSeparator))
+}
+
 // jsapi.jar lives in the FreeTTS subproject's lib/ directory.
 def jsapiJar = file('../FreeTTS/lib/jsapi.jar')
 

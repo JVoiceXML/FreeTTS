@@ -21,6 +21,9 @@ public class PrefixFSM extends PronounceableFSM {
 
     /**
      * Constructs a PrefixFSM.
+     *
+     * @param url the URL of the FSM specification
+     * @throws IOException if an error occurs while reading the FSM data
      */
     public PrefixFSM(URL url) throws IOException {
 	super(url, true);

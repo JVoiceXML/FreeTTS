@@ -32,6 +32,8 @@ public class AliasDiphone extends Diphone
 
     /**
      * Get the name of the original name that this alias points to.
+     *
+     * @return the original diphone name
      */
     public String getOriginalName()
     {

@@ -62,7 +62,9 @@ public class JTime {
      * JSAPI mode name.  The currently supported domains are
      * "general," which means general purpose synthesis for tasks
      * such as reading e-mail, and "time" which means a domain that's
-     * only good for speaking the time of day. 
+     * only good for speaking the time of day.
+     *
+     * @param modeName the JSAPI mode name to list voices for
      */
     public static void listAllVoices(String modeName) {
         
@@ -104,6 +106,8 @@ public class JTime {
      * Construct a default JTime object. It creates the Limited Domain
      * synthesizer, speaks the current time, and asks the user to input
      * a new time in the format HH:MM.
+     *
+     * @param voiceName the name of the JSAPI voice to use
      */
     public JTime(String voiceName) {
 	try {

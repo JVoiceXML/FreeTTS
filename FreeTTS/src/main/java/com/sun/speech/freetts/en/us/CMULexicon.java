@@ -116,7 +116,7 @@ public class CMULexicon extends LexiconImpl {
      * Get the CMULexicon.
      *
      * @param useBinaryIO if true use binary IO to load DB
-     *
+     * @return a CMULexicon instance
      * @throws IOException if problems occurred while reading the data
      */ 
     static public CMULexicon getInstance( boolean useBinaryIO) 
@@ -127,8 +127,9 @@ public class CMULexicon extends LexiconImpl {
     /**
      * Get the CMULexicon.
      *
+     * @param basename the base name of the lexicon
      * @param useBinaryIO if true use binary IO to load DB
-     *
+     * @return a CMULexicon instance
      * @throws IOException if problems occurred while reading the data
      */ 
     static public CMULexicon getInstance(String basename, boolean useBinaryIO) 
@@ -275,6 +276,8 @@ public class CMULexicon extends LexiconImpl {
      * -showtimes
      *
      * </pre>
+     *
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
 	LexiconImpl lex, lex2;

@@ -245,6 +245,7 @@ public class FreeTTS {
      * 
      * @param is
      *            the stream containing the text to speak
+     * @return true if the speech was successfully synthesized
      */
     public boolean streamToSpeech(InputStream is) {
         boolean ok;
@@ -436,6 +437,8 @@ public class FreeTTS {
 
     /**
      * The main entry point for FreeTTS.
+     *
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
 

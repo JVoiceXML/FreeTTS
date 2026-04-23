@@ -86,6 +86,8 @@ public class MbrolaVoiceDirectory extends VoiceDirectory {
 
     /**
      * Prints out the MBROLA voices.
+     *
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
         System.out.println((new MbrolaVoiceDirectory()).toString());

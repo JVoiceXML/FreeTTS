@@ -28,6 +28,7 @@ public class SegmentRelationUtils {
      *
      * @param segmentRelation the segmentRelation of interest
      * @param time the time
+     * @return the Item at the given time
      */
     public static Item getItem(Relation segmentRelation, float time) {
 

@@ -72,10 +72,10 @@ import com.sun.speech.freetts.util.Utilities;
  * property:
  *
  * <pre>
- *   -Dcom.sun.speeech.freetts.lexicon.userAddenda=&lt;URLToUserAddenda>
+ *   -Dcom.sun.speeech.freetts.lexicon.userAddenda=&lt;URLToUserAddenda&gt;
  * </pre>
  *
- * Where &lt;URLToUserAddenda> is a URL pointing to an ASCII file
+ * Where &lt;URLToUserAddenda&gt; is a URL pointing to an ASCII file
  * containing addenda entries.
  *
  * <p>[[[TODO: support multiple homographs with the same part of speech.]]] 
@@ -318,6 +318,7 @@ abstract public class LexiconImpl implements Lexicon {
      * @param binary if <code>true</code>, the data is binary
      * @param estimatedSize the estimated size of the lexicon
      *
+     * @return a Map of the lexicon data
      * @throws IOException if errors are encountered while reading the data
      */
     protected Map createLexicon(InputStream is,
@@ -345,6 +346,7 @@ abstract public class LexiconImpl implements Lexicon {
      * @param is the input stream
      * @param estimatedSize the estimated number of entries of the lexicon
      *
+     * @return a Map of the lexicon data
      * @throws IOException if errors are encountered while reading the data
      */
     protected Map loadTextLexicon(InputStream is, int estimatedSize) 
@@ -864,6 +866,9 @@ abstract public class LexiconImpl implements Lexicon {
      * Fixes the part of speech if it is <code>null</code>.  The
      * default representation of a <code>null</code> part of speech
      * is the number "0".
+     *
+     * @param partOfSpeech the part of speech to fix
+     * @return the fixed part of speech, or "0" if null
      */
     static protected String fixPartOfSpeech(String partOfSpeech) {
         return (partOfSpeech == null) ? "0" : partOfSpeech;

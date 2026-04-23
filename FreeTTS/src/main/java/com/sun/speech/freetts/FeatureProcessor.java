@@ -19,7 +19,7 @@ public interface FeatureProcessor {
     /**
      * Performs some processing on the given item.
      * @param  item  the item to process
-     *
+     * @return the result of processing the item
      * @throws ProcessException if an exception occurred during the
      *   processing
      */

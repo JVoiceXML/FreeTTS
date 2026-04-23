@@ -70,6 +70,8 @@ public class JSAPIClock extends Clock {
 
     /**
      * main() method to run the JSAPIClock.
+     *
+     * @param args command-line arguments
      */
     public static void main(String args[]) {
         Clock frame = new JSAPIClock();

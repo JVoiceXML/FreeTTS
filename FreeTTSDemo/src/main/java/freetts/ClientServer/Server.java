@@ -98,6 +98,8 @@ public class Server extends TTSServer {
 
     /**
      * Starts this TTS Server.
+     *
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
 	Server server = new Server();

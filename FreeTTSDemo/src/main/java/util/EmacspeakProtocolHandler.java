@@ -95,7 +95,7 @@ public abstract class EmacspeakProtocolHandler implements Runnable {
     /**
      * Set to debug mode, which will print out debug messages.
      *
-     * @param true if set to debug mode, false if set to non-debug mode.
+     * @param debug true if set to debug mode, false if set to non-debug mode.
      */
     public void setDebug(boolean debug) {
         this.debug = debug;
@@ -176,6 +176,9 @@ public abstract class EmacspeakProtocolHandler implements Runnable {
     /**
      * Strips DECTalk commands from the input text.  The DECTalk
      * commands are anything inside "[" and "]".
+     *
+     * @param content the text to strip DECTalk commands from
+     * @return the text with DECTalk commands removed
      */
     public String stripDECTalkCommands(String content) {
         int startPos = content.indexOf('[');

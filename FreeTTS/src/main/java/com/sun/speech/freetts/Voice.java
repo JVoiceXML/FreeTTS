@@ -697,6 +697,8 @@ public abstract class Voice implements UtteranceProcessor, Dumpable {
     /**
      * Loads voice specific data. Subclasses of voice should
      * implement this to perform class specific loading.
+     *
+     * @throws IOException if an error occurs while loading voice data
      */
     protected abstract void loader() throws IOException;
 
@@ -1191,6 +1193,7 @@ public abstract class Voice implements UtteranceProcessor, Dumpable {
      * @see #DEFAULT_AUDIO_PLAYER
      * @see #getAudioPlayer
      * @return the default AudioPlayer
+     * @throws InstantiationException if the audio player cannot be instantiated
      */
     public AudioPlayer getDefaultAudioPlayer() throws InstantiationException {
         if (defaultAudioPlayer != null) {
@@ -1238,6 +1241,9 @@ public abstract class Voice implements UtteranceProcessor, Dumpable {
      * By default, the voice is searched for in the package
      * to which the voice class belongs. Subclasses are free to
      * override this behaviour.
+     *
+     * @param resource the name of the resource to retrieve
+     * @return the URL of the resource, or null if not found
      */
     protected URL getResource(String resource) {
         return this.getClass().getResource(resource);
@@ -1381,6 +1387,8 @@ public abstract class Voice implements UtteranceProcessor, Dumpable {
      * Gets the voice style. This parameter is designed for human
      * interpretation. Values might include "business", "casual",
      * "robotic", "breathy".
+     *
+     * @return the voice style
      */
     public String getStyle() {
         return style;

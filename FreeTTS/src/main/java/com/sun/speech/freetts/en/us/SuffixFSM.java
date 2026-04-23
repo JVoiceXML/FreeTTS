@@ -21,6 +21,9 @@ public class SuffixFSM extends PronounceableFSM {
 
     /**
      * Constructs a SuffixFSM.
+     *
+     * @param url the URL of the FSM specification
+     * @throws IOException if an error occurs while reading the FSM data
      */
     public SuffixFSM(URL url) throws IOException {
 	super(url, false);

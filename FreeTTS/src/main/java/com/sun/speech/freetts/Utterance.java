@@ -108,6 +108,7 @@ public class Utterance implements FeatureSet, Serializable {
      * name.
      *
      * @param name the name of the relation of interest.
+     * @return true if the relation exists, false otherwise
      */
     public boolean hasRelation(String name) {
 	return relations.isPresent(name);
@@ -331,6 +332,7 @@ public class Utterance implements FeatureSet, Serializable {
      * @param relation the name of the relation
      * @param time the time
      *
+     * @return the Item at the given time
      * @throws IllegalStateException if the Segment durations
      *   have not been calculated in the Utterance or if the
      *   given relation is not present in the Utterance

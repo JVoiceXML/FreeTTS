@@ -58,11 +58,10 @@ import com.sun.speech.freetts.util.Utilities;
  * the traditional java binary I/O and the new io ( <code>java.nio </code>)
  * package.
  * <p>
- * <p> A diphone database can be loaded from a text data file, or a
+ * A diphone database can be loaded from a text data file, or a
  * binary datafile.  The binary version loads significantly faster
  * than the text version. Additionally, a binary index can be
  * generated and used to reduce overall memory footprint.
- * <p> 
  * <p>
  * A DiphoneUnitDatabase contains an array of frames, and an aray of
  * residuals. The frames are the samples of the wave, and the
@@ -455,6 +454,8 @@ public class DiphoneUnitDatabase {
     
     /**
      * Returns the name of this DiphoneUnitDatabase.
+     *
+     * @return the name of this database
      */
     public String getName() {
 	return name;
@@ -796,10 +797,9 @@ public class DiphoneUnitDatabase {
      * <p>
      *  <code> java com.sun.speech.freetts.diphone.DiphoneUnitDatabase
      *  [options]</code> 
-     * <p>
+     * </p>
      * <b> Options </b>
-     * <p>
-     *    <ul>
+     * <ul>
      *          <li> <code> -src path </code> provides a directory
      *          path to the source text for the database
      *          <li> <code> -dest path </code> provides a directory
@@ -814,7 +814,8 @@ public class DiphoneUnitDatabase {
      *		<li> <code> -showTimes </code> shows timings for any
      *		loading, comparing or dumping operation
      *    </ul>
-     * 
+     *
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
 	boolean showTimes = false;

@@ -68,6 +68,9 @@ public class PathExtractorImpl implements PathExtractor {
 
     /**
      * Creates a path for the given feature.
+     *
+     * @param pathAndFeature the path and feature string to use
+     * @param wantFeature if true, extract a feature value at the end of the path
      */
     public PathExtractorImpl(String pathAndFeature, boolean wantFeature) {
 	this.pathAndFeature = pathAndFeature;

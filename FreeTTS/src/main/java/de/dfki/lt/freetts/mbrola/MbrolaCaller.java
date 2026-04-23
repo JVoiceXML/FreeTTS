@@ -34,6 +34,8 @@ public class MbrolaCaller implements UtteranceProcessor {
      * using the command <code>cmd</code>. The command string is used
      * as it is, which means that it must contain full path specifications
      * and the correct file separators.
+     *
+     * @param cmd the command array to execute the MBROLA binary
      */
     public MbrolaCaller(String[] cmd) {
         this.cmd = cmd;

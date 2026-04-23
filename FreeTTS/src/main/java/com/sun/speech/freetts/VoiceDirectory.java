@@ -110,6 +110,7 @@ public abstract class VoiceDirectory {
      * out information about provided voices.  For example, they may
      * just call dumpVoices()
      *
+     * @param args command-line arguments
      * @see #toString()
      */
     public static void main(String[] args) {
