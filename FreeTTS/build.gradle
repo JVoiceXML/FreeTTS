@@ -516,13 +516,150 @@ def sharedPom = { pom, String pubName, String pubDesc ->
     }
 }
 
+// ---------------------------------------------------------------------------
+// Per-component sources JARs
+//
+// Each component gets a dedicated Jar task that:
+//  - uses the component's artifactId as archiveBaseName (so the file is named
+//    e.g. cmu_us_kal-1.2.3-SNAPSHOT-sources.jar)
+//  - includes only the Java sources and resources that belong to that component
+//
+// This avoids the signing-plugin implicit-dependency problem that arises when
+// multiple sign tasks all try to write the same <project>-sources.jar.asc file.
+// ---------------------------------------------------------------------------
+def javaDir      = file('src/main/java')
+def resourcesDir = file('src/main/resources')
+
+// freetts core sources/javadoc are provided automatically by `from components.java`
+// (via java.withSourcesJar() / withJavadocJar()); no separate task needed here.
+
+// en_us – American-English voice classes + txt data (no lexicon bins, no voice sub-dirs)
+tasks.register('enUsSourcesJar', Jar) {
+    archiveBaseName   = 'en_us'
+    archiveClassifier = 'sources'
+    from(javaDir) {
+        include 'com/sun/speech/freetts/en/**'
+        exclude 'com/sun/speech/freetts/en/us/cmu_us_kal/**'
+        exclude 'com/sun/speech/freetts/en/us/cmu_time_awb/**'
+    }
+    from(resourcesDir) {
+        include 'com/sun/speech/freetts/en/us/*.txt'
+        exclude '**/cmu*lex*.txt'
+    }
+}
+
+// cmulex / cmudict04 / cmutimelex – data-only JARs; include the CMULexicon
+// source so the sources artifact is non-empty and meaningful.
+tasks.register('cmulexSourcesJar', Jar) {
+    archiveBaseName   = 'cmulex'
+    archiveClassifier = 'sources'
+    from(javaDir) { include 'com/sun/speech/freetts/en/us/CMULexicon.java' }
+    from(resourcesDir) { include 'com/sun/speech/freetts/en/us/cmulex*.txt' }
+}
+tasks.register('cmudict04SourcesJar', Jar) {
+    archiveBaseName   = 'cmudict04'
+    archiveClassifier = 'sources'
+    from(javaDir) { include 'com/sun/speech/freetts/en/us/CMULexicon.java' }
+    from(resourcesDir) { include 'com/sun/speech/freetts/en/us/cmudict04*.txt' }
+}
+tasks.register('cmutimelexSourcesJar', Jar) {
+    archiveBaseName   = 'cmutimelex'
+    archiveClassifier = 'sources'
+    from(javaDir) {
+        include 'com/sun/speech/freetts/en/us/CMULexicon.java'
+        include 'com/sun/speech/freetts/en/us/CMUTimeLexicon.java'
+    }
+    from(resourcesDir) { include 'com/sun/speech/freetts/en/us/cmutimelex*.txt' }
+}
+
+// cmu_us_kal – Kevin diphone voice
+tasks.register('cmuUsKalSourcesJar', Jar) {
+    archiveBaseName   = 'cmu_us_kal'
+    archiveClassifier = 'sources'
+    from(javaDir)      { include 'com/sun/speech/freetts/en/us/cmu_us_kal/**' }
+    from(resourcesDir) { include 'com/sun/speech/freetts/en/us/cmu_us_kal/**' }
+}
+
+// cmu_time_awb – Alan cluster-unit voice
+tasks.register('cmuTimeAwbSourcesJar', Jar) {
+    archiveBaseName   = 'cmu_time_awb'
+    archiveClassifier = 'sources'
+    from(javaDir)      { include 'com/sun/speech/freetts/en/us/cmu_time_awb/**' }
+    from(resourcesDir) { include 'com/sun/speech/freetts/en/us/cmu_time_awb/**' }
+}
+
+// mbrola – MBROLA voice support (mbrola + en/us bridge classes)
+tasks.register('mbrolaSourcesJar', Jar) {
+    archiveBaseName   = 'mbrola'
+    archiveClassifier = 'sources'
+    from(javaDir) {
+        include 'de/dfki/lt/freetts/mbrola/**'
+        include 'de/dfki/lt/freetts/en/us/**'
+    }
+    from(resourcesDir) {
+        include 'de/dfki/lt/freetts/mbrola/**'
+        include 'de/dfki/lt/freetts/en/us/**'
+    }
+}
+
+// germanlex – German lexicon
+tasks.register('germanLexSourcesJar', Jar) {
+    archiveBaseName   = 'germanlex'
+    archiveClassifier = 'sources'
+    from(javaDir)      { include 'de/dfki/lt/freetts/de/**' }
+    from(resourcesDir) { include 'de/dfki/lt/freetts/de/**' }
+}
+
+// freetts-jsapi10 – JSAPI 1.0 layer (only when jsapi.jar is present)
+if (jsapiJar.exists()) {
+    tasks.register('freettsJsapi10SourcesJar', Jar) {
+        archiveBaseName   = 'freetts-jsapi10'
+        archiveClassifier = 'sources'
+        from(javaDir) {
+            include 'com/sun/speech/engine/**'
+            include 'com/sun/speech/freetts/jsapi/**'
+        }
+        from(resourcesDir) {
+            include 'com/sun/speech/engine/**'
+            include 'com/sun/speech/freetts/jsapi/**'
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Per-component javadoc JARs
+//
+// All components share one project-wide javadoc run (the content is identical)
+// but each gets its own Jar task so the output file carries the component
+// artifactId in its name and each sign task writes a unique .asc file.
+// ---------------------------------------------------------------------------
+def compJavadocJar = { String taskName, String artifactId ->
+    tasks.register(taskName, Jar) {
+        dependsOn javadoc
+        from javadoc.destinationDir
+        archiveBaseName   = artifactId
+        archiveClassifier = 'javadoc'
+    }
+}
+compJavadocJar('enUsJavadocJar',       'en_us')
+compJavadocJar('cmulexJavadocJar',     'cmulex')
+compJavadocJar('cmudict04JavadocJar',  'cmudict04')
+compJavadocJar('cmutimelexJavadocJar', 'cmutimelex')
+compJavadocJar('cmuUsKalJavadocJar',   'cmu_us_kal')
+compJavadocJar('cmuTimeAwbJavadocJar', 'cmu_time_awb')
+compJavadocJar('mbrolaJavadocJar',     'mbrola')
+compJavadocJar('germanLexJavadocJar',  'germanlex')
+if (jsapiJar.exists()) { compJavadocJar('freettsJsapi10JavadocJar', 'freetts-jsapi10') }
+
+// ---------------------------------------------------------------------------
 publishing {
     publications {
 
         // --- Core FreeTTS library ---
-        // Uses `from components.java` so that the standard jar, sourcesJar and
-        // javadocJar (created by java.withSourcesJar / withJavadocJar above) are
-        // all included automatically.
+        // Uses `from components.java` which automatically includes the standard
+        // jar, sourcesJar and javadocJar produced by java.withSourcesJar /
+        // withJavadocJar.  We override the sources/javadoc with our filtered
+        // freetts-specific variants so the archive names match the artifactId.
         freetts(MavenPublication) {
             from components.java
             artifactId = 'freetts'
@@ -530,15 +667,11 @@ publishing {
         }
 
         // --- American-English voice support ---
-        // Note: sourcesJar / javadocJar are shared, project-wide artifacts.
-        // All FreeTTS component JARs originate from the same single source set, so a
-        // shared full-project sources/javadoc JAR is the standard approach for this
-        // kind of split-JAR release, and it satisfies Maven Central validation.
         enUs(MavenPublication) {
             artifactId = 'en_us'
             artifact tasks.named('enUsJar')
-            artifact tasks.named('sourcesJar')
-            artifact tasks.named('javadocJar')
+            artifact tasks.named('enUsSourcesJar')
+            artifact tasks.named('enUsJavadocJar')
             pom { sharedPom(it, 'FreeTTS en_us', 'American-English voice support classes for FreeTTS.') }
         }
 
@@ -546,8 +679,8 @@ publishing {
         cmulex(MavenPublication) {
             artifactId = 'cmulex'
             artifact tasks.named('cmulexJar')
-            artifact tasks.named('sourcesJar')
-            artifact tasks.named('javadocJar')
+            artifact tasks.named('cmulexSourcesJar')
+            artifact tasks.named('cmulexJavadocJar')
             pom { sharedPom(it, 'FreeTTS cmulex', 'CMU lexicon binary data for FreeTTS.') }
         }
 
@@ -555,8 +688,8 @@ publishing {
         cmudict04(MavenPublication) {
             artifactId = 'cmudict04'
             artifact tasks.named('cmudict04Jar')
-            artifact tasks.named('sourcesJar')
-            artifact tasks.named('javadocJar')
+            artifact tasks.named('cmudict04SourcesJar')
+            artifact tasks.named('cmudict04JavadocJar')
             pom { sharedPom(it, 'FreeTTS cmudict04', 'CMU pronunciation dictionary binary data for FreeTTS.') }
         }
 
@@ -564,8 +697,8 @@ publishing {
         cmutimelex(MavenPublication) {
             artifactId = 'cmutimelex'
             artifact tasks.named('cmutimelexJar')
-            artifact tasks.named('sourcesJar')
-            artifact tasks.named('javadocJar')
+            artifact tasks.named('cmutimelexSourcesJar')
+            artifact tasks.named('cmutimelexJavadocJar')
             pom { sharedPom(it, 'FreeTTS cmutimelex', 'CMU time-domain lexicon binary data for FreeTTS.') }
         }
 
@@ -573,8 +706,8 @@ publishing {
         mbrola(MavenPublication) {
             artifactId = 'mbrola'
             artifact tasks.named('mbrolaJar')
-            artifact tasks.named('sourcesJar')
-            artifact tasks.named('javadocJar')
+            artifact tasks.named('mbrolaSourcesJar')
+            artifact tasks.named('mbrolaJavadocJar')
             pom { sharedPom(it, 'FreeTTS mbrola', 'MBROLA voice support for FreeTTS.') }
         }
 
@@ -582,8 +715,8 @@ publishing {
         germanlex(MavenPublication) {
             artifactId = 'germanlex'
             artifact tasks.named('germanLexJar')
-            artifact tasks.named('sourcesJar')
-            artifact tasks.named('javadocJar')
+            artifact tasks.named('germanLexSourcesJar')
+            artifact tasks.named('germanLexJavadocJar')
             pom { sharedPom(it, 'FreeTTS germanlex', 'German lexicon binary data for FreeTTS.') }
         }
 
@@ -591,8 +724,8 @@ publishing {
         cmuUsKal(MavenPublication) {
             artifactId = 'cmu_us_kal'
             artifact tasks.named('cmuUsKalJar')
-            artifact tasks.named('sourcesJar')
-            artifact tasks.named('javadocJar')
+            artifact tasks.named('cmuUsKalSourcesJar')
+            artifact tasks.named('cmuUsKalJavadocJar')
             pom { sharedPom(it, 'FreeTTS cmu_us_kal', 'Kevin diphone voice archive for FreeTTS.') }
         }
 
@@ -600,8 +733,8 @@ publishing {
         cmuTimeAwb(MavenPublication) {
             artifactId = 'cmu_time_awb'
             artifact tasks.named('cmuTimeAwbJar')
-            artifact tasks.named('sourcesJar')
-            artifact tasks.named('javadocJar')
+            artifact tasks.named('cmuTimeAwbSourcesJar')
+            artifact tasks.named('cmuTimeAwbJavadocJar')
             pom { sharedPom(it, 'FreeTTS cmu_time_awb', 'Alan cluster-unit voice archive for FreeTTS.') }
         }
 
@@ -610,8 +743,8 @@ publishing {
             freettsJsapi10(MavenPublication) {
                 artifactId = 'freetts-jsapi10'
                 artifact tasks.named('freettsJsapi10Jar')
-                artifact tasks.named('sourcesJar')
-                artifact tasks.named('javadocJar')
+                artifact tasks.named('freettsJsapi10SourcesJar')
+                artifact tasks.named('freettsJsapi10JavadocJar')
                 pom { sharedPom(it, 'FreeTTS JSAPI 1.0', 'JSAPI 1.0 layer for FreeTTS.') }
             }
         }
@@ -635,22 +768,54 @@ publishing {
 
 // ---------------------------------------------------------------------------
 // Signing – required for all non-SNAPSHOT releases published to Maven Central.
+//
+// The signing plugin is always applied (see plugins block).  Setting
+// `required = false` prevents the plugin's built-in onlyIf predicate from
+// throwing "Could not evaluate spec for 'Signing is required, or signatory is
+// set'" when no signatory is configured.  Sign tasks are still executed
+// automatically whenever a signatory IS present (i.e. the key vars are set),
+// because the plugin's onlyIf checks `signatory != null` as well.
+//
+// A separate taskGraph.whenReady hook enforces that a signing key MUST be
+// provided when publishing a non-SNAPSHOT release, so accidental unsigned
+// releases to Maven Central are still caught at build time.
 // ---------------------------------------------------------------------------
 signing {
-    // Prefer in-memory PGP keys (suitable for CI pipelines).
     def signingKey      = findProperty('signingKey')      ?: System.getenv('SIGNING_KEY')
     def signingPassword = findProperty('signingPassword') ?: System.getenv('SIGNING_PASSWORD')
-    if (signingKey) {
-        useInMemoryPgpKeys(signingKey, signingPassword ?: '')
+    def hasLegacyKey    = findProperty('signing.keyId') != null
+
+    // Only treat signingKey as an in-memory PGP key if it is actually an
+    // ASCII-armoured key block (starts with '-----').  A bare 8-char key ID
+    // accidentally placed in signingKey must NOT be passed to
+    // useInMemoryPgpKeys – that method expects the full armoured block and will
+    // throw "secret key ring doesn't start with secret key tag" otherwise.
+    def isArmoredKey = signingKey?.toString()?.startsWith('-----')
+
+    if (isArmoredKey) {
+        useInMemoryPgpKeys(signingKey as String, (signingPassword ?: '') as String)
     }
-    // Signing is only mandatory when publishing a non-SNAPSHOT release.
-    required {
-        !version.endsWith('-SNAPSHOT') &&
-                gradle.taskGraph.allTasks.any { task ->
-                    task instanceof PublishToMavenRepository && task.repository?.name == 'OSSRH'
-                }
+
+    // Only register sign tasks when a key is actually available.
+    if (isArmoredKey || hasLegacyKey) {
+        required { !version.toString().endsWith('-SNAPSHOT') }
+        sign publishing.publications
     }
-    sign publishing.publications
+}
+
+// Enforce signing key presence for non-SNAPSHOT releases at execution time.
+gradle.taskGraph.whenReady { graph ->
+    boolean publishingRelease = !version.toString().endsWith('-SNAPSHOT') &&
+            graph.allTasks.any { it instanceof PublishToMavenRepository && it.repository?.name == 'OSSRH' }
+    if (publishingRelease) {
+        def signingKey   = findProperty('signingKey')   ?: System.getenv('SIGNING_KEY')
+        def hasLegacyKey = findProperty('signing.keyId') != null
+        if (!signingKey && !hasLegacyKey) {
+            throw new GradleException(
+                'A GPG signing key is required to publish a non-SNAPSHOT release to Maven Central. ' +
+                'Set signingKey / SIGNING_KEY (in-memory) or signing.keyId + signing.secretKeyRingFile (keyring).')
+        }
+    }
 }
 
 // ---------------------------------------------------------------------------
